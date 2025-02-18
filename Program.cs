@@ -1,9 +1,19 @@
+using Microsoft.EntityFrameworkCore;
+using Restaurant.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+
+builder.Services.AddDbContext<HotPotContext>(
+options => options.UseSqlServer(builder.Configuration.GetConnectionString("HotPotConnstring")));
+
 var app = builder.Build();
+
+
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -22,6 +32,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
+    pattern: "{controller=Customers}/{action=Index}/{id?}");
+// _Member
 app.Run();
