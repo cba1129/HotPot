@@ -173,8 +173,14 @@ namespace Restaurant.Controllers
             return View(customer);
         }
 
-        public IActionResult Member_Login() { 
-        return View();
+        public IActionResult Member_Login()
+        {
+            return View();
         }
-}
+
+        public IActionResult Member_Register()
+        {
+            return View();
+        }
+    }
 }
