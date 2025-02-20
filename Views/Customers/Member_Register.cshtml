@@ -4,7 +4,7 @@
 @{
 }
 
-@using (Html.BeginForm("Register", "Home", FormMethod.Post)) { }
+<html>
 <body>
 
 
@@ -66,7 +66,7 @@
 						<div class="mb-3">
 							<label for="confirmPassword" class="form-label">確認密碼<span style="color:red">*</span></label>
 							<input type="password" class="form-control" id="confirmPassword" placeholder="再次輸入密碼" required style="background-color:#F6EFA6">
-					   <label value="password != confirmPassword ? "" :"與密碼不相同")" ></label>
+					   <label value="password != confirmPassword ? "" :"與密碼不相同")" >你好</label>
 						</div>
 							@*
                         <div class="mb-3 form-check">
@@ -88,7 +88,7 @@
 <script>
 	 function Register() {
 		console.log ("開始驗證");  //這裡有
-		var inputs = document.querySelectorAll("#myForm input[required]"); // 取得所有 required 欄位
+		var inputs = document.querySelectorAll(".card-body input[required]"); // 取得所有 required 欄位
 		console.log(inputs[0]+"1")
 		var missingFields = []; // 儲存未填寫的欄位名稱
 		var firstEmptyInput = null; // 記錄第一個沒填的欄位
