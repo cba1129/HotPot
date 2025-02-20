@@ -4,46 +4,117 @@
 @{
 }
 
+@using (Html.BeginForm("Register", "Home", FormMethod.Post)) { }
 <body>
 
 
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header text-center">
-                    <h4>會員註冊</h4>
-                </div>
-                <div class="card-body">
-                    <form>
+	<div class="container mt-5">
+		<div class="row justify-content-center" >
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-header text-center">
+						<h4>會員註冊</h4>
+					</div>
+					<div class="card-body" >
+						<form>
+							<div class="mb-3">
+								<label for="username" class="form-label" >姓名<span style="color:red">*</span></label>
+								<input type="text" class="form-control" id="username" placeholder="輸入姓名" required style="background-color:#F6EFA6">
+								<span class="error-message"></span>
+							</div>
+							<div class="mb-3">
+								<label>性別&nbsp; </label>
+								<label>
+									<input type="radio" name="gender"id="M">男生&nbsp;
+								</label>
+								<label>
+									<input type="radio" name="gender" id="F">女生&nbsp;
+								</label>
+								<label>
+									<input type="radio" name="gender" id="N">不方便提供&nbsp;
+								</label>
+							</div>
+							<div class="mb-3">
+								<label for="userphone" class="form-label">電話<span style="color:red">*</span></label>
+								<input type="text" class="form-control" id="userphone" placeholder="輸入電話號碼" required style="background-color:#F6EFA6">
+							</div>
+							@*用電子郵件當作帳號 註冊時須核對資料庫是否存在資料*@
+							<div class="mb-3">
+								<label for="email" class="form-label">電子郵件<span style="color:red">*</span></label>  
+								<input type="email" class="form-control" id="email" placeholder="輸入電子郵件" required style="background-color:#F6EFA6">
+							</div>
+							<div class="mb-3">
+								<label for="useraddress" class="form-label">地址<span style="color:red">*</span></label>
+								<input type="text" class="form-control" id="useraddress" placeholder="地址" required style="background-color:#F6EFA6">
+							</div>
+							<div class="mb-3"> 
+								<label for="userbirthday" class="form-label">生日<span style="color:red">*</span>&nbsp;</label>
+								<input type="date" id="userbirthday" name="userbirthday" max="@DateTime.Now.ToString("yyyy-MM-dd")" required />
+								</input>                            
+						</div>
+							@*
                         <div class="mb-3">
-                            <label for="username" class="form-label">用戶名</label>
-                            <input type="text" class="form-control" id="username" placeholder="輸入用戶名" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">電子郵件</label>
-                            <input type="email" class="form-control" id="email" placeholder="輸入電子郵件" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">密碼</label>
-                            <input type="password" class="form-control" id="password" placeholder="輸入密碼" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="confirmPassword" class="form-label">確認密碼</label>
-                            <input type="password" class="form-control" id="confirmPassword" placeholder="再次輸入密碼" required>
-                        </div>
+                            <label for="account" class="form-label">帳號</label>
+                            <input type="text" class="form-control" id="account" placeholder="輸入帳號" required>
+                        </div>*@
+							@*判斷密碼與確認密碼是否相同*@
+						<div class="mb-3">
+							<label for="password" class="form-label">密碼<span style="color:red">*</span></label>
+							<input type="password" class="form-control" id="password" placeholder="輸入密碼" required style="background-color:#F6EFA6">
+						</div>
+						<div class="mb-3">
+							<label for="confirmPassword" class="form-label">確認密碼<span style="color:red">*</span></label>
+							<input type="password" class="form-control" id="confirmPassword" placeholder="再次輸入密碼" required style="background-color:#F6EFA6">
+					   <label value="password != confirmPassword ? "" :"與密碼不相同")" ></label>
+						</div>
+							@*
                         <div class="mb-3 form-check">
                             <input type="checkbox" class="form-check-input" id="terms" required>
                             <label class="form-check-label" for="terms">我同意 <a href="#">服務條款</a></label>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">註冊</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                        </div>*@
+						<button type="submit" class="btn btn-primary w-100" onclick="Register()">註冊</button>
+					</form>
 
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+ </br>
+ </br>
 </body>
 </html>
+<script>
+	 function Register() {
+		console.log ("開始驗證");  //這裡有
+		var inputs = document.querySelectorAll("#myForm input[required]"); // 取得所有 required 欄位
+		console.log(inputs[0]+"1")
+		var missingFields = []; // 儲存未填寫的欄位名稱
+		var firstEmptyInput = null; // 記錄第一個沒填的欄位
+		console.log(missingFields[1]+"2") // 這個結果是 undefind
+
+		inputs.forEach(function (input) {  //先找有沒有欄位是空的
+			if (input.value.trim() === "") {
+				missingFields.push(input.previousElementSibling.textContent); // 加入未填欄位名稱
+				if (!firstEmptyInput) {
+					firstEmptyInput = input; // 記錄第一個未填的欄位
+				}
+			}
+		});
+		// 如果有未填欄位，顯示錯誤訊息並停止提交
+		if (missingFields.length > 0) {
+			console.log("conntinue") //
+			alert("請填寫以下欄位：\n" + missingFields.join("\n")); // 顯示所有未填欄位
+			firstEmptyInput.focus(); // 聚焦到第一個未填的欄位
+			return false; // 停止執行
+		}
+	} // 允許提交
+	
+	
+
+</script>
+
+
+
+

@@ -180,6 +180,7 @@ namespace Restaurant.Controllers
 
         public IActionResult Member_Register()
         {
+            ViewBag.C3 = DateTime.Now;
             return View();
         }
     }
