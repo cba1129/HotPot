@@ -93,6 +93,7 @@
 		var missingFields = []; // 儲存未填寫的欄位名稱
 		var firstEmptyInput = null; // 記錄第一個沒填的欄位
 		console.log(missingFields[1]+"2") // 這個結果是 undefind
+		var checkAgain = confirm("您確定要註冊嗎？");
 
 		inputs.forEach(function (input) {  //先找有沒有欄位是空的
 			if (input.value.trim() === "") {
@@ -109,6 +110,19 @@
 			firstEmptyInput.focus(); // 聚焦到第一個未填的欄位
 			return false; // 停止執行
 		}
+		// 若所有欄位都填寫，則確認是否註冊
+		/*
+		 else if (missingFields.length == 0) {
+			console.log("789"); //789
+			alert("註冊成功！"); // 顯示註冊成功的訊息
+			// 這裡可以執行表單提交，例如：
+			// document.getElementById("myForm").submit();
+		} 
+		else {
+			alert("註冊已取消。"); // 顯示註冊取消的訊息
+			console.log("cancel")
+			document.getElementById("usesrname").focus();
+		}*/
 	} // 允許提交
 	
 	
