@@ -19,55 +19,114 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 
 	<link rel="stylesheet" href="~/Content/css/Member_Login.css" />
+	<style>
+		body {
+			background-color: #f8f9fa; /* 背景顏色 */
+
+		}
+		.login-container {
+			background-color: white;
+			padding: 30px;
+			border-radius: 10px;
+			box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+			width: 420px;
+			margin: 80px auto; /* 置中 */
+		}
+		.form-label {
+			font-weight: bold;
+			white-space: nowrap; /* 避免換行 */
+			margin-bottom: 0;
+		}
+		.form-control {
+			border-radius: 5px;
+			box-shadow: none;
+			border: 1px solid #ced4da;
+		}
+		.btn-custom {
+			border-radius: 25px; /* 按鈕更圓 */
+			padding: 10px 20px;
+			font-weight: bold;
+		}
+		.btn-register {
+			background-color: #003366; /* 深藍色 */
+			color: white;
+			border: none;
+			border: 2px solid black;
+		}
+		.btn-register:hover {
+			background-color: white;
+		}
+		.btn-login {
+			background-color: white;
+			color: black;
+			border: 2px solid black;
+		}
+		.btn-login:hover {
+			background-color: black;
+			color: white;
+		}
+		.forgot-password {
+			color: red;
+			font-weight: bold;
+			text-decoration: none;
+		}
+		.forgot-password:hover {
+			text-decoration: underline;
+		}
+	</style>
 </head>
 
 <br>
 <br>
 
-<div class="mb-3 container d-flex justify-content-center">
-	<h1 style="background-color: pink"> 會員登入</h1>
-</div>
+<body>
+	<div class="container" >
+<div class="login-container " >
+	<h1 class="text-center  mb-4" style=" background-color: pink"> 會員登入</h1>
+
+
 
 <form>
 @*帳號登入*@
-<div class="row  justify-content-center">
-	<div class="mb-3 col-2 col-sm-1" style="padding-top:5px; padding-right:4px">
-		<label for="exampleInputEmail1" class="form-label" style="white-space: nowrap;"> 帳號 : </label>
+<div class="mb-3 row  align-items-center">	
+	<label for="exampleInputEmail1" class="form-label col-3 text-end" > 帳號 : </label>
+	<div class="col-9">
+		<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="請輸入您的帳號">
 	</div>
-	<div class="col-3">
-		<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-	</div>
-	@*<div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>*@
+@*<div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>*@
 </div>
 
 @*密碼登入*@
-<div class="row justify-content-center">
-	<div class="mb-3 col-2 col-sm-1" style="padding-top:5px; padding-right:4px">
-		<label for="exampleInputPassword1" class="form-label" style="white-space: nowrap;">密碼 : </label>
-	</div>
-	<div class="col-3">
-		<input type="password" class="form-control" id="exampleInputPassword1">
+<div class="mb-3 row  align-items-center">
+	<label for="exampleInputPassword1" class="form-label col-3 text-end" style="white-space: nowrap;">密碼 : </label>
+	<div class="col-9 ">
+		<div class="input-group">
+		<input type="password" class="form-control" id="exampleInputPassword1"  placeholder="請輸入您的密碼">
+		<button type="button" class="btn btn-outline-secondary" onclick="togglePassword()">👁</button>
+		</div>
 	</div>
 </div>
 
 @*忘記密碼*@
-<div class="row justify-content-center">
-	<div class="mb-1 col-4 d-flex justify-content-sm-end" >
-		<button type="button" class="btn btn-link" >忘記密碼</button>		
-	</div>
+<div class="d-flex justify-content-end mb-3">
+	<a href="#" class="forgot-password" >忘記密碼?</a>		
 </div>
 
 @*註冊登入(註冊未設定連結)*@
-<div class="row justify-content-center">
-	<div class="mb-3  col-4  d-flex justify-content-sm-end" >
-		<div class="d-flex justify-content-sm-start" >
-			<a href="~/Customers/Member_Register" >
-			<button type="button" class="btn btn-primary" href="~/Customers/Member_Register" style="background-color: brown" >註冊</button></a>
-		</div>	
-		<div class="d-flex justify-content-sm-end">
-			<button type="submit" class="btn btn-primary">登入</button>
-		</div>
-	</div>
-</div>
+<div class="d-flex justify-content-between">
+	<a href="~/Customers/Member_Register" class="btn btn-custom btn-register flex-fill me-2">註冊</a>
+	<a href="~/Customers/Index" class="btn btn-custom btn-login flex-fill">登入</a>
+</div>			
 </form>
-
+</div>
+</div>
+</body>
+<script>
+	function togglePassword() {
+	var passwordInput = document.getElementById("exampleInputPassword1");
+	if (passwordInput.type === "password") {
+		passwordInput.type = "text"; // 顯示密碼
+	} else {
+		passwordInput.type = "password"; // 隱藏密碼
+	}
+}</script>

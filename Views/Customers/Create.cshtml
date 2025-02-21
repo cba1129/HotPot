@@ -4,6 +4,7 @@
     ViewData["Title"] = "Create";
 }
 
+
 <h1>Create</h1>
 
 <h4>Customer</h4>
@@ -61,3 +62,115 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+@*@model YourNamespace.Models.Customer
+
+@{
+    ViewData["Title"] = "會員註冊";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h4>會員註冊</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <!-- 姓名 -->
+                        <div class="mb-3">
+                            <label asp-for="CustomerName" class="form-label">姓名<span style="color:red">*</span></label>
+                            <input asp-for="CustomerName" class="form-control" style="background-color:#F6EFA6">
+                            <span asp-validation-for="CustomerName" class="text-danger"></span>
+                        </div>
+
+                        <!-- 性別 -->
+                        <div class="mb-3">
+                            <label>性別&nbsp;</label>
+                            <label><input type="radio" asp-for="Gender" value="M"> 男生&nbsp;</label>
+                            <label><input type="radio" asp-for="Gender" value="F"> 女生&nbsp;</label>
+                            <label><input type="radio" asp-for="Gender" value="N"> 不方便提供&nbsp;</label>
+                        </div>
+
+                        <!-- 電話 -->
+                        <div class="mb-3">
+                            <label asp-for="CustomerPhone" class="form-label">電話<span style="color:red">*</span></label>
+                            <input asp-for="CustomerPhone" class="form-control" style="background-color:#F6EFA6">
+                            <span asp-validation-for="CustomerPhone" class="text-danger"></span>
+                        </div>
+
+                        <!-- 電子郵件 -->
+                        <div class="mb-3">
+                            <label asp-for="CustomerEmail" class="form-label">電子郵件<span style="color:red">*</span></label>
+                            <input asp-for="CustomerEmail" class="form-control" style="background-color:#F6EFA6">
+                            <span asp-validation-for="CustomerEmail" class="text-danger"></span>
+                        </div>
+
+                        <!-- 地址 -->
+                        <div class="mb-3">
+                            <label asp-for="CustomerAddress" class="form-label">地址<span style="color:red">*</span></label>
+                            <input asp-for="CustomerAddress" class="form-control" style="background-color:#F6EFA6">
+                            <span asp-validation-for="CustomerAddress" class="text-danger"></span>
+                        </div>
+
+                        <!-- 生日 -->
+                        <div class="mb-3">
+                            <label asp-for="CustomerBirthDate" class="form-label">生日</label>
+                            <input asp-for="CustomerBirthDate" type="date" class="form-control">
+                            <span asp-validation-for="CustomerBirthDate" class="text-danger"></span>
+                        </div>
+
+                        <!-- 密碼 -->
+                        <div class="mb-3">
+                            <label asp-for="CustomerPassword" class="form-label">密碼<span style="color:red">*</span></label>
+                            <div class="input-group">
+                                <input asp-for="CustomerPassword" type="password" class="form-control" id="passwordInput" style="background-color:#F6EFA6">
+                                <button type="button" class="btn btn-outline-secondary" onclick="togglePassword()">👁</button>
+                            </div>
+                            <span asp-validation-for="CustomerPassword" class="text-danger"></span>
+                        </div>
+
+                        <!-- 確認密碼 -->
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">確認密碼<span style="color:red">*</span></label>
+                            <input type="password" class="form-control" id="confirmPassword" placeholder="再次輸入密碼" style="background-color:#F6EFA6">
+                            <span id="passwordMismatch" class="text-danger"></span>
+                        </div>
+
+                        <!-- 註冊按鈕 -->
+                        <button type="submit" class="btn btn-primary w-100">註冊</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        function togglePassword() {
+            var passwordInput = document.getElementById("passwordInput");
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text"; // 顯示密碼
+            } else {
+                passwordInput.type = "password"; // 隱藏密碼
+            }
+        }
+
+        document.getElementById("confirmPassword").addEventListener("input", function() {
+            var password = document.getElementById("passwordInput").value;
+            var confirmPassword = this.value;
+            var errorMsg = document.getElementById("passwordMismatch");
+
+            if (password !== confirmPassword) {
+                errorMsg.textContent = "密碼不相同！";
+            } else {
+                errorMsg.textContent = "";
+            }
+        });
+    </script>
+}
+*@

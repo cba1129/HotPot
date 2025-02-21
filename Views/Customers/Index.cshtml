@@ -72,12 +72,15 @@
             <td>
                 @Html.DisplayFor(modelItem => item.CustomerCreatedAt)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CustomerCustomerId">Edit</a> |
-                    <a href="~/Customers/Index_Member" asp-route-id="@item.CustomerCustomerId" >Details</a> |
+             <td>
+                 @* <a asp-action="Edit" asp-route-id="@item.CustomerCustomerId">Edit</a> |  *@
+                 @*     <a href="~/Customers/Index_Member" asp-route-id="@item.CustomerCustomerId" >Details</a> |  *@
+                 @*     @Html.ActionLink("Edit", "Edit", new { id = item.CustomerCustomerId }) |  *@
+                 @*     <a asp-action="Delete" asp-route-id="@item.CustomerCustomerId">Delete</a>  *@
                     @Html.ActionLink("Edit", "Edit", new { id = item.CustomerCustomerId }) |
-                    <a asp-action="Delete" asp-route-id="@item.CustomerCustomerId">Delete</a>
-            </td>
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) | 
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ }) 
+             </td> 
         </tr>
 }
     </tbody>

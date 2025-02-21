@@ -178,10 +178,11 @@ namespace Restaurant.Controllers
             return View();
         }
 
+
         public IActionResult Member_Register()
-        {
-            ViewBag.C3 = DateTime.Now;
+        {            
             return View();
         }
+
     }
 }
