@@ -18,12 +18,17 @@ public partial class Customer
     [Display(Name = "E-mail")]
     public string CustomerEmail { get; set; } = null!;
 
-   // public string CustomerGender { get; set; } = null!;
+    // public string CustomerGender { get; set; } = null!;
+    [Required(ErrorMessage = "請輸入帳號")]
+    [EmailAddress(ErrorMessage = "請輸入有效的 Email")]
+    [Display(Name = "帳號")]
+    public string CustomerAccount { get; set; } = null!;
 
-    [Required]
+    
+    [Required(ErrorMessage = "請輸入密碼")]    
     [DataType(DataType.Password)]
     [Display(Name = "密碼")]
-    public byte[] CustomerPassword { get; set; } = null!;
+    public string CustomerPassword { get; set; } = null!;
 
     //[Required]
     //[DataType(DataType.Password)]
@@ -33,8 +38,6 @@ public partial class Customer
     [Display(Name = "生日")]
     public DateOnly? CustomerBirthDate { get; set; }
 
-    [Display(Name = "帳號")]
-    public string CustomerAccount { get; set; } = null!;
 
     [Display(Name = "點數")]
     public decimal? CustomerPoints { get; set; }
@@ -49,3 +52,7 @@ public partial class Customer
 
     public virtual ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
 }
+
+    
+
+

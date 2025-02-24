@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -173,10 +174,50 @@ namespace Restaurant.Controllers
             return View(customer);
         }
 
+        [HttpGet]
         public IActionResult Member_Login()
         {
             return View();
         }
+
+
+        [HttpPost]
+        public ActionResult Member_Login(Customer model) {
+            Customer outModel = new Customer();
+
+            // 檢查輸入資料
+            if (string.IsNullOrEmpty(model.CustomerAccount) || string.IsNullOrEmpty(model.CustomerPassword)) {
+                outModel.
+
+            }
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(model);
+        //    }
+        //    // 假設這是從資料庫讀取的帳號密碼（實際應該從 DB 查詢）
+        //    string correctUsername = "admin@example.com";
+        //    string correctPassword = "123456";
+        //    string customerName = "Admin user";
+
+        //    if (model.CustomerAccount == correctUsername && model.CustomerPassword == correctPassword)
+        //    {
+        //        // 記錄登入狀態
+        //        Session["User"] = model.CustomerAccount;
+        //        return RedirectToAction("Index", "Home");  // 登入成功導向首頁
+        //    }
+        //    else
+        //    {
+        //        ViewBag.ErrorMessage = "❌ 帳號或密碼錯誤";
+        //        return View(model);
+        //    } }        
+
+        //// 登出功能
+        //public ActionResult Logout()
+        //{
+        //    Session.Clear();  // 清除 Session
+        //    return RedirectToAction("Member_Login");
+        }
+    
 
 
         public IActionResult Member_Register()
@@ -200,5 +241,6 @@ namespace Restaurant.Controllers
             
             return View(customer);
         }
+
     }
 }

@@ -3,6 +3,13 @@
 *@
 @{
 }
+
+@model Restaurant.Models.Customer
+
+@{
+	ViewData["Title"] = "Member_Login";
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -86,24 +93,26 @@
 
 
 
-<form>
+<form asp-action="Member_Login" method="post">
 @*帳號登入*@
 <div class="mb-3 row  align-items-center">	
-	<label for="exampleInputEmail1" class="form-label col-3 text-end" > 帳號 : </label>
+	<label asp-for="CustomerAccount" class="form-label col-3 text-end" > 帳號 : </label>
 	<div class="col-9">
-		<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="請輸入您的帳號">
+		<input asp-for="CustomerAccount" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="請輸入您的帳號">
+	<!--<span asp-validation-for="CustomerAccount" class="text-danger"></span>-->
 	</div>
 @*<div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>*@
 </div>
 
 @*密碼登入*@
-<div class="mb-3 row  align-items-center">
-	<label for="exampleInputPassword1" class="form-label col-3 text-end" style="white-space: nowrap;">密碼 : </label>
+<div class="mb-3 row  align-items-center"> <!--下面的for="exampleInputPassword1"-->
+	<label asp-for="CustomerPassword" class="form-label col-3 text-end" style="white-space: nowrap;">密碼 : </label>
 	<div class="col-9 ">
 		<div class="input-group">
-		<input type="password" class="form-control" id="exampleInputPassword1"  placeholder="請輸入您的密碼">
-		<button type="button" class="btn btn-outline-secondary" onclick="togglePassword()">👁</button>
+			<input asp-for="CustomerPassword" type="password" class="form-control" placeholder="請輸入您的密碼">
+			<button type="button" class="btn btn-outline-secondary" onclick="togglePassword()">👁</button>
 		</div>
+		 <!--<span asp-validation-for="CustomerPassword" class="text-danger"></span>-->
 	</div>
 </div>
 
@@ -114,13 +123,15 @@
 
 @*註冊登入(註冊未設定連結)*@
 <div class="d-flex justify-content-between">
-	<a href="~/Customers/Member_Register" class="btn btn-custom btn-register flex-fill me-2">註冊</a>
-	<a href="~/Customers/Index" class="btn btn-custom btn-login flex-fill">登入</a>
+	<a asp-controller="Customers" asp-action="Create" class="btn btn-custom btn-register flex-fill me-2">註冊</a>
+	<button type="submit" class="btn btn-custom btn-login flex-fill">登入</button>
 </div>			
 </form>
 </div>
 </div>
 </body>
+
+@section scripts{
 <script>
 	function togglePassword() {
 	var passwordInput = document.getElementById("exampleInputPassword1");
@@ -129,4 +140,7 @@
 	} else {
 		passwordInput.type = "password"; // 隱藏密碼
 	}
-}</script>
+	}</script>
+	@* 客戶端驗證 *@
+	<partial name="_ValidationScriptsPartial" />
+}

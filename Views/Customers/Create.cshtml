@@ -5,10 +5,6 @@
 }
 
 
-<h1>Create</h1>
-
-<h4>Customer</h4>
-<hr />
 <div class="container mt-5">
         <div class="row justify-content-center" >
             <div class="col-md-6">
@@ -40,16 +36,16 @@
                         <input asp-for="CustomerBirthDate" type="date" id="userbirthday" name="userbirthday" max="@DateTime.Now.ToString("yyyy-MM-dd")" required />
                     <span asp-validation-for="CustomerBirthDate" class="text-danger"></span>
                 </div>
-                <div class="mb-3">
-                    <label asp-for="CustomerAccount" class="control-label"></label>
-                    <input asp-for="CustomerAccount" class="form-control" />
-                    <span asp-validation-for="CustomerAccount" class="text-danger"></span>
-                </div>
-                 <div class="mb-3">
-                    <label asp-for="CustomerPassword" class="control-label">密碼<span style="color:red">*</span></label>
-                    <input asp-for="CustomerPassword" class="form-control" />
-                    <span asp-validation-for="CustomerPassword" class="text-danger"></span>
-                </div>
+                @* <div class="mb-3"> *@
+                @*     <label asp-for="CustomerAccount" class="control-label"></label> *@
+                @*     <input asp-for="CustomerAccount" class="form-control" /> *@
+                @*     <span asp-validation-for="CustomerAccount" class="text-danger"></span> *@
+                @* </div> *@
+                @*  <div class="mb-3"> *@
+                @*     <label asp-for="CustomerPassword" class="control-label">密碼<span style="color:red">*</span></label> *@
+                @*     <input asp-for="CustomerPassword" class="form-control" /> *@
+                @*     <span asp-validation-for="CustomerPassword" class="text-danger"></span> *@
+                @* </div> *@
                 <div class="mb-3">
                     <label asp-for="CustomerAddress" class="control-label">地址<span style="color:red">*</span></label>
                     <input asp-for="CustomerAddress" class="form-control" />
