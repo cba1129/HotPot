@@ -18,8 +18,17 @@ public partial class Customer
     [Display(Name = "E-mail")]
     public string CustomerEmail { get; set; } = null!;
 
+   // public string CustomerGender { get; set; } = null!;
+
+    [Required]
+    [DataType(DataType.Password)]
     [Display(Name = "密碼")]
     public byte[] CustomerPassword { get; set; } = null!;
+
+    //[Required]
+    //[DataType(DataType.Password)]
+    //[Compare("CustomerPassword", ErrorMessage = "密碼與確認密碼不相符")]
+    //public string? ConfirmPassword { get; set; }
 
     [Display(Name = "生日")]
     public DateOnly? CustomerBirthDate { get; set; }

@@ -180,9 +180,25 @@ namespace Restaurant.Controllers
 
 
         public IActionResult Member_Register()
-        {            
+        {
             return View();
         }
 
+        // POST: Customers/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Member_Register([Bind("CustomerCustomerId,CustomerName,CustomerPhone,CustomerEmail,CustomerPassword,CustomerBirthDate,CustomerAccount,CustomerPoints,CustomerAddress,CustomerCreatedAt")] Customer customer)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(customer);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            
+            return View(customer);
+        }
     }
 }

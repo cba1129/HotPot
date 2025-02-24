@@ -22,7 +22,69 @@
 						<h4>會員註冊</h4>
 					</div>
 					<div class="card-body" >
-						<form>
+						<form asp-action="Member_Register" onsubmit="return Register()">
+							<div class="mb-3">
+								<label asp-for="CustomerName" class="control-label" >姓名<span style="color:red">*</span></label>
+								<input asp-for="CustomerName" class="form-control" id="username" placeholder="輸入姓名" required style="background-color:#F6EFA6">
+								<span class="error-message"></span>
+							</div>
+							<div class="mb-3">
+								<label>性別&nbsp; </label>
+								<label>
+									<input type="radio" name="CustomerGender" value="M" id="M">男生&nbsp;
+								</label>
+								<label>
+									<input type="radio" name="gender" value="F" id="F">女生&nbsp;
+								</label>
+								<label>
+									<input type="radio" name="gender" value="N" id="N">不方便提供&nbsp;
+								</label>
+							</div>
+							<div class="mb-3">
+								<label asp-for="CustomerPhone" class="control-label">電話<span style="color:red">*</span></label>
+								<input asp-for="CustomerPhone" type="text" class="form-control" id="userphone" placeholder="輸入電話號碼" required style="background-color:#F6EFA6">
+							</div>
+							<!--用電子郵件當作帳號 註冊時須核對資料庫是否存在資料-->
+							<div class="mb-3">
+								<label asp-for="CustomerEmail" class="control-label">電子郵件<span style="color:red">*</span></label>  
+								<input asp-for="CustomerEmail" type="email" class="form-control" id="email" placeholder="輸入電子郵件" required style="background-color:#F6EFA6">
+							</div>
+							<div class="mb-3">
+								<label asp-for="CustomerAddress"  class="control-label">地址<span style="color:red">*</span></label>
+								<input asp-for="CustomerAddress"  type="text" class="form-control" id="useraddress" placeholder="地址" required style="background-color:#F6EFA6">
+							</div>
+							<div class="mb-3"> 
+								<label asp-for="CustomerBirthDate" class="control-label">生日<span style="color:red">*</span>&nbsp;</label>
+								<input asp-for="CustomerBirthDate" type="date" id="userbirthday" name="userbirthday" max="@DateTime.Now.ToString("yyyy-MM-dd")" required />
+								</input>                            
+						</div>
+							<!--
+                        <div class="mb-3">
+                            <label for="account" class="form-label">帳號</label>
+                            <input type="text" class="form-control" id="account" placeholder="輸入帳號" required>
+                        </div>-->
+						<!--判斷密碼與確認密碼是否相同-->
+						<div class="mb-3">
+							<label asp-for="CustomerPassword" class="control-label">密碼<span style="color:red">*</span></label>
+							<input asp-for="CustomerPassword" type="password" class="form-control" id="password" placeholder="輸入密碼" required style="background-color:#F6EFA6">
+						</div>
+						<div class="mb-3">
+							<label asp-for="CustomerPassword" class="control-label">確認密碼<span style="color:red">*</span></label>
+							<input type="password" class="form-control" id="confirmPassword" placeholder="再次輸入密碼" required style="background-color:#F6EFA6">
+					   <label value="password != confirmPassword ? "" :"與密碼不相同")" >你好</label>
+						</div>
+							<!--
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="terms" required>
+                            <label class="form-check-label" for="terms">我同意 <a href="#">服務條款</a></label>
+                        </div>-->
+							<!--<button type="submit" class="btn btn-primary w-100" onclick="Register()">註冊</button>-->
+						<div class="form-group">
+						<input type="submit" value="Create" class="btn btn-primary w-100" />註冊
+						</div>
+					</form>
+
+						<!--<form>
 							<div class="mb-3">
 								<label for="username" class="form-label" >姓名<span style="color:red">*</span></label>
 								<input type="text" class="form-control" id="username" placeholder="輸入姓名" required style="background-color:#F6EFA6">
@@ -80,7 +142,7 @@
                         </div>*@
 						<button type="submit" class="btn btn-primary w-100" onclick="Register()">註冊</button>
 					</form>
-
+					-->
 				</div>
 			</div>
 		</div>
@@ -90,6 +152,8 @@
  </br>
 </body>
 </html>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 <script>
 	 function Register() {
 		console.log ("開始驗證");  //這裡有
@@ -137,6 +201,6 @@
 
 </script>
 
-
+}
 
 
