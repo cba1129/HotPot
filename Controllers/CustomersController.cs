@@ -215,7 +215,7 @@ namespace Restaurant.Controllers
                 {
                     return RedirectToAction(nameof(Create));  //若找不到傳回  (帳號不存在)
                 }
-                var valid = _passwordHasher.VerifyHashedPassword(null, result.CustomerPassword , user.CustomerPassword);
+                var valid = _passwordHasher.VerifyHashedPassword(null!, result.CustomerPassword , user.CustomerPassword);
                 if (valid == PasswordVerificationResult.Success) {
                     var claims = new List<Claim>
                     {

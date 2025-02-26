@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Restaurant.Models;
+using Umbraco.Core.Persistence.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -9,6 +11,11 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<HotPotContext>(
 options => options.UseSqlServer(builder.Configuration.GetConnectionString("HotPotConnstring")));
+
+
+builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
+//builder.Services.AddTransient<IUserRepository, IUserRepository>();
 
 var app = builder.Build();
 
