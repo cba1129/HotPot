@@ -132,7 +132,7 @@
 
 				@*註冊登入(註冊未設定連結)*@
 <div class="d-flex justify-content-between">
-	<a asp-controller="Customers" asp-action="Create" class="btn btn-custom btn-register flex-fill me-2">註冊</a>
+		<a asp-controller="Customers" asp-action="Create" class="btn btn-custom btn-register flex-fill me-2">註冊</a>
 	<button type="submit" class="btn btn-custom btn-login flex-fill">登入</button>
 </div>			
 </form>
@@ -140,6 +140,7 @@
 </div>
 	}
 </body>
+</html>
 
 @section scripts {
 	<script>
@@ -150,7 +151,8 @@
 		} else {
 			passwordInput.type = "password"; // 隱藏密碼
 		}
-		}</script>
+		}
+		</script>
 	@* 客戶端驗證 *@
 		<partial name="_ValidationScriptsPartial" />
 }

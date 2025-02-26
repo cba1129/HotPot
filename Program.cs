@@ -8,14 +8,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddHttpContextAccessor();
+//builder.Services.AddTransient<IUserRepository, IUserRepository>();
+
 
 builder.Services.AddDbContext<HotPotContext>(
 options => options.UseSqlServer(builder.Configuration.GetConnectionString("HotPotConnstring")));
 
 
-builder.Services.AddControllersWithViews();
-builder.Services.AddHttpContextAccessor();
-//builder.Services.AddTransient<IUserRepository, IUserRepository>();
+
 
 var app = builder.Build();
 
@@ -39,6 +40,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Customers}/{action=Index}/{id?}");
+    pattern: "{controller=Customers}/{action=Member_Login}/{id?}");
 // _Member  Register    Member_Login
 app.Run();
