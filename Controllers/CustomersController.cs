@@ -3,20 +3,42 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Restaurant.Models;
+using Microsoft.Data.SqlClient;
+using Azure.Identity;
+using Microsoft.AspNetCore.Identity;
+using System.Xml.Linq;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+
+
 
 namespace Restaurant.Controllers
 {
+    
+
     public class CustomersController : Controller
     {
-        private readonly HotPotContext _context;
+        Customer xa = new Customer();   //根據類別建立物件
 
-        public CustomersController(HotPotContext context)
+        private readonly ILogger<CustomersController> _logger;
+        private readonly HotPotContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly PasswordHasher<string> _passwordHasher = new PasswordHasher<string>();  // 哈希        
+
+        public CustomersController(ILogger<CustomersController> logger, HotPotContext context,
+            IHttpContextAccessor httpContextAccessor )
         {
-            _context = context;
+            _logger = logger;
+            _context = context;            
+            _httpContextAccessor = httpContextAccessor;
         }
 
         // GET: Customers
@@ -182,14 +204,36 @@ namespace Restaurant.Controllers
 
 
         [HttpPost]
-        public ActionResult Member_Login(Customer model) {
-            Customer outModel = new Customer();
+        [AllowAnonymous]
+        public ActionResult Member_Login(Customer user) {
+            
+            if (ModelState.IsValid) {
+                var result = (from a in _context.Customers
+                              where a.CustomerAccount == user.CustomerAccount
+                              select a).SingleOrDefault();
+                if (result == null)
+                {
+                    return RedirectToAction(nameof(Create));  //若找不到傳回  (帳號不存在)
+                }
+                var valid = _passwordHasher.VerifyHashedPassword(null, result.CustomerPassword , user.CustomerPassword);
+                if (valid == PasswordVerificationResult.Success) {
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name,result.CustomerName),//帳號
+                        new Claim("UserName",result.CustomerName),//帳號
+                        //new Claim("UserStatus",result.status),//身分  (沒有身分)
+                        new Claim("UserId",result.CustomerCustomerId.ToString()),//會員ID
 
-            // 檢查輸入資料
-            if (string.IsNullOrEmpty(model.CustomerAccount) || string.IsNullOrEmpty(model.CustomerPassword)) {
-                outModel.
 
+                        //new Claim(ClaimTypes.Role,"Admin")
+                    };
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                    return RedirectToAction(nameof(Index));
+                }
             }
+            return RedirectToAction(nameof(Login));
+        }
         //    if (!ModelState.IsValid)
         //    {
         //        return View(model);
@@ -216,7 +260,7 @@ namespace Restaurant.Controllers
         //{
         //    Session.Clear();  // 清除 Session
         //    return RedirectToAction("Member_Login");
-        }
+        
     
 
 
@@ -240,6 +284,20 @@ namespace Restaurant.Controllers
             }
             
             return View(customer);
+        }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult Logout()
+        {
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction(nameof(Member_Login));
+        }
+        [HttpGet]
+        public string noLogin()
+        {
+            return "未登入";
         }
 
     }
