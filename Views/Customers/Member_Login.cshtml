@@ -91,18 +91,18 @@
 <br>
 <br>
 
-<body>
+<body style ="background-color:#DEDEBE ">
 
 	@if (Model == null)
 	{
 	
-	<div class="container" >
-		<div class="login-container " >
+		<div class="container"  >
+			<div class="login-container " >
 			<h1 class="text-center  mb-4" style=" background-color: pink"> 會員登入</h1>
 			
 
 
-<form asp-action="Member_Login" method="post">
+	<form asp-action="Member_Login" method="post">
 				@*帳號登入*@
 <div class="mb-3 row  align-items-center">	
 	<label asp-for="CustomerAccount" class="form-label col-3 text-end" > 帳號 : </label>

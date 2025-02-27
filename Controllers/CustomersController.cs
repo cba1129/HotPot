@@ -17,6 +17,8 @@ using System.Xml.Linq;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using Umbraco.Core.Models.Membership;
+using Microsoft.AspNet.Identity;
 
 
 
@@ -74,13 +76,36 @@ namespace Restaurant.Controllers
         // POST: Customers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // 註冊密碼位隱碼 //
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CustomerCustomerId,CustomerName,CustomerPhone,CustomerEmail,CustomerPassword,CustomerBirthDate,CustomerAccount,CustomerPoints,CustomerAddress,CustomerCreatedAt")] Customer customer)
-        {
+        {      
+
             if (ModelState.IsValid)
             {
-                _context.Add(customer);
+                // 判斷是否已經註冊過了
+                bool isUserExists = _context.Customers.Any(m => m.CustomerEmail == customer.CustomerEmail);
+                if (isUserExists)
+                {
+                    ModelState.AddModelError("CustomerEmail", "❌ 該 Email 已經被註冊過了");
+                    return View(customer);  // 保留輸入的資料並返回表單
+                    // return RedirectToAction(nameof(Create));  // 要告訴使用者帳好已存在
+                }
+                string? hashedPassword = _passwordHasher.HashPassword(null!, customer.CustomerPassword); // 加密
+                Customer customer1 = new Customer
+                {
+                   CustomerName = customer.CustomerName,   // 姓名 
+                   CustomerPhone = customer.CustomerPhone,  // 電話
+                    CustomerEmail = customer.CustomerEmail,  // email
+                    CustomerAddress = customer.CustomerAddress, // 地址
+                    CustomerBirthDate = customer.CustomerBirthDate,  //  生日還沒寫進資料庫
+                    CustomerAccount = customer.CustomerAccount, // 帳號
+                    CustomerPassword = hashedPassword,       // 加密密碼
+
+                };
+
+                _context.Add(customer1);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -205,19 +230,23 @@ namespace Restaurant.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Member_Login(Customer user) {
-            
-            if (ModelState.IsValid) {
-                var result = (from a in _context.Customers
-                              where a.CustomerAccount == user.CustomerAccount
-                              select a).SingleOrDefault();
+        public ActionResult Member_Login(Customer user)
+        {
+
+            if (ModelState.IsValid)
+            {
+                Customer? result = (from a in _context.Customers
+                                    where a.CustomerAccount == user.CustomerAccount
+                                    select a).SingleOrDefault();
                 if (result == null)
                 {
                     return RedirectToAction(nameof(Create));  //若找不到傳回  (帳號不存在)
                 }
-                var valid = _passwordHasher.VerifyHashedPassword(null!, result.CustomerPassword , user.CustomerPassword);
-                if (valid == PasswordVerificationResult.Success) {
-                    var claims = new List<Claim>
+                var valid = _passwordHasher.VerifyHashedPassword(null!, result.CustomerPassword, user.CustomerPassword);
+                if (valid.Equals( Microsoft.AspNet.Identity.PasswordVerificationResult.Success))
+                {
+                    {
+                        var claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name,result.CustomerName),//帳號
                         new Claim("UserName",result.CustomerName),//帳號
@@ -227,13 +256,16 @@ namespace Restaurant.Controllers
 
                         //new Claim(ClaimTypes.Role,"Admin")
                     };
-                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-                    return RedirectToAction(nameof(Index));
+                        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                        return RedirectToAction(nameof(Index));
+                    }
                 }
+                
             }
             return RedirectToAction(nameof(Login));
         }
+        //------------------------------------------------------
         //    if (!ModelState.IsValid)
         //    {
         //        return View(model);
@@ -243,25 +275,25 @@ namespace Restaurant.Controllers
         //    string correctPassword = "123456";
         //    string customerName = "Admin user";
 
-        //    if (model.CustomerAccount == correctUsername && model.CustomerPassword == correctPassword)
-        //    {
-        //        // 記錄登入狀態
-        //        Session["User"] = model.CustomerAccount;
-        //        return RedirectToAction("Index", "Home");  // 登入成功導向首頁
-        //    }
-        //    else
-        //    {
-        //        ViewBag.ErrorMessage = "❌ 帳號或密碼錯誤";
-        //        return View(model);
-        //    } }        
+            //    if (model.CustomerAccount == correctUsername && model.CustomerPassword == correctPassword)
+            //    {
+            //        // 記錄登入狀態
+            //        Session["User"] = model.CustomerAccount;
+            //        return RedirectToAction("Index", "Home");  // 登入成功導向首頁
+            //    }
+            //    else
+            //    {
+            //        ViewBag.ErrorMessage = "❌ 帳號或密碼錯誤";
+            //        return View(model);
+            //    } }        
 
-        //// 登出功能
-        //public ActionResult Logout()
-        //{
-        //    Session.Clear();  // 清除 Session
-        //    return RedirectToAction("Member_Login");
-        
-    
+            //// 登出功能
+            //public ActionResult Logout()
+            //{
+            //    Session.Clear();  // 清除 Session
+            //    return RedirectToAction("Member_Login");
+
+
 
 
         public IActionResult Member_Register()

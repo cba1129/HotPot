@@ -5,7 +5,7 @@
 }
 
 
-<div class="container mt-5">
+<div class="container mt-5" style="background-color:#CDCD9A">
         <div class="row justify-content-center" >
             <div class="col-md-6">
                 <div class="card">
@@ -42,7 +42,7 @@
                     <span asp-validation-for="CustomerBirthDate" class="text-danger"></span>
                 </div>
                 <div class="mb-3"> 
-                    <label asp-for="CustomerAccount" class="control-label"></label>
+                    <label asp-for="CustomerAccount" class="control-label">帳號<span style="color:red">*</span></label>
                     <input asp-for="CustomerAccount" class="form-control" /> 
                     <span asp-validation-for="CustomerAccount" class="text-danger"></span> 
                 </div> 
