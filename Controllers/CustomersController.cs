@@ -24,7 +24,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Restaurant.Controllers
 {
-    
+
 
     public class CustomersController : Controller
     {
@@ -36,14 +36,15 @@ namespace Restaurant.Controllers
         private readonly PasswordHasher<string> _passwordHasher = new PasswordHasher<string>();  // 哈希        
 
         public CustomersController(ILogger<CustomersController> logger, HotPotContext context,
-            IHttpContextAccessor httpContextAccessor )
+            IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
-            _context = context;            
+            _context = context;
             _httpContextAccessor = httpContextAccessor;
         }
 
         // GET: Customers
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Customers.ToListAsync());
@@ -80,7 +81,7 @@ namespace Restaurant.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CustomerCustomerId,CustomerName,CustomerPhone,CustomerEmail,CustomerPassword,CustomerBirthDate,CustomerAccount,CustomerPoints,CustomerAddress,CustomerCreatedAt")] Customer customer)
-        {      
+        {
 
             if (ModelState.IsValid)
             {
@@ -95,8 +96,8 @@ namespace Restaurant.Controllers
                 string? hashedPassword = _passwordHasher.HashPassword(null!, customer.CustomerPassword); // 加密
                 Customer customer1 = new Customer
                 {
-                   CustomerName = customer.CustomerName,   // 姓名 
-                   CustomerPhone = customer.CustomerPhone,  // 電話
+                    CustomerName = customer.CustomerName,   // 姓名 
+                    CustomerPhone = customer.CustomerPhone,  // 電話
                     CustomerEmail = customer.CustomerEmail,  // email
                     CustomerAddress = customer.CustomerAddress, // 地址
                     CustomerBirthDate = customer.CustomerBirthDate,  //  生日還沒寫進資料庫
@@ -230,7 +231,7 @@ namespace Restaurant.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Member_Login(Customer user)
+        public ActionResult Member_Login(Customer user,string CustomerAccount, string Password)  // 參數問題
         {
 
             if (ModelState.IsValid)
@@ -243,10 +244,10 @@ namespace Restaurant.Controllers
                     return RedirectToAction(nameof(Create));  //若找不到傳回  (帳號不存在)
                 }
                 var valid = _passwordHasher.VerifyHashedPassword(null!, result.CustomerPassword, user.CustomerPassword);
-                if (valid.Equals( Microsoft.AspNet.Identity.PasswordVerificationResult.Success))
+                if (valid.Equals(Microsoft.AspNet.Identity.PasswordVerificationResult.Success))
                 {
-                    {
-                        var claims = new List<Claim>
+
+                    var claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name,result.CustomerName),//帳號
                         new Claim("UserName",result.CustomerName),//帳號
@@ -256,13 +257,19 @@ namespace Restaurant.Controllers
 
                         //new Claim(ClaimTypes.Role,"Admin")
                     };
-                        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                        HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-                        return RedirectToAction(nameof(Index));
-                    }
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+
                 }
-                
+                else
+                {
+                    ViewBag.Error = "密碼錯誤，請重新輸入！";
+                    return RedirectToAction(nameof(Index));
+
+                }
+
             }
+            ViewBag.Error = "請檢查輸入欄位是否正確！";
             return RedirectToAction(nameof(Login));
         }
         //------------------------------------------------------
@@ -275,27 +282,27 @@ namespace Restaurant.Controllers
         //    string correctPassword = "123456";
         //    string customerName = "Admin user";
 
-            //    if (model.CustomerAccount == correctUsername && model.CustomerPassword == correctPassword)
-            //    {
-            //        // 記錄登入狀態
-            //        Session["User"] = model.CustomerAccount;
-            //        return RedirectToAction("Index", "Home");  // 登入成功導向首頁
-            //    }
-            //    else
-            //    {
-            //        ViewBag.ErrorMessage = "❌ 帳號或密碼錯誤";
-            //        return View(model);
-            //    } }        
+        //    if (model.CustomerAccount == correctUsername && model.CustomerPassword == correctPassword)
+        //    {
+        //        // 記錄登入狀態
+        //        Session["User"] = model.CustomerAccount;
+        //        return RedirectToAction("Index", "Home");  // 登入成功導向首頁
+        //    }
+        //    else
+        //    {
+        //        ViewBag.ErrorMessage = "❌ 帳號或密碼錯誤";
+        //        return View(model);
+        //    } }        
 
-            //// 登出功能
-            //public ActionResult Logout()
-            //{
-            //    Session.Clear();  // 清除 Session
-            //    return RedirectToAction("Member_Login");
-
-
+        //// 登出功能
+        //public ActionResult Logout()
+        //{
+        //    Session.Clear();  // 清除 Session
+        //    return RedirectToAction("Member_Login");
 
 
+
+        // Member_Register 沒在用
         public IActionResult Member_Register()
         {
             return View();
@@ -314,7 +321,7 @@ namespace Restaurant.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            
+
             return View(customer);
         }
 

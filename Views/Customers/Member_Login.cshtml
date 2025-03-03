@@ -95,64 +95,64 @@
 
 	@if (Model == null)
 	{
-	
-		<div class="container"  >
-			<div class="login-container " >
-			<h1 class="text-center  mb-4" style=" background-color: pink"> 會員登入</h1>
-			
+
+			<div class="container"  >
+				<div class="login-container " >
+				<h1 class="text-center  mb-4" style=" background-color: pink"> 會員登入</h1>
 
 
-	<form asp-action="Member_Login" method="post">
-				@*帳號登入*@
-<div class="mb-3 row  align-items-center">	
-	<label asp-for="CustomerAccount" class="form-label col-3 text-end" > 帳號 : </label>
-	<div class="col-9">
-		<input asp-for="CustomerAccount" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="請輸入您的帳號">
-	<!--<span asp-validation-for="CustomerAccount" class="text-danger"></span>-->
-	</div>
-					@*<div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>*@
-</div>
 
-				@*密碼登入*@
-<div class="mb-3 row  align-items-center"> <!--下面的for="exampleInputPassword1"-->
-	<label asp-for="CustomerPassword" class="form-label col-3 text-end" style="white-space: nowrap;">密碼 : </label>
-	<div class="col-9 ">
-		<div class="input-group">
-			<input asp-for="CustomerPassword" type="password" class="form-control" placeholder="請輸入您的密碼">
-			<button type="button" class="btn btn-outline-secondary" onclick="togglePassword()">👁</button>
+		<form asp-action="Member_Login" method="post">
+					@*帳號登入*@
+	<div class="mb-3 row  align-items-center">	
+		<label asp-for="CustomerAccount" class="form-label col-3 text-end" > 帳號 : </label>
+		<div class="col-9">
+				<input asp-for="CustomerAccount" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="請輸入您的帳號">
+		<!--<span asp-validation-for="CustomerAccount" class="text-danger"></span>-->
 		</div>
-		 <!--<span asp-validation-for="CustomerPassword" class="text-danger"></span>-->
+						@*<div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>*@
 	</div>
-</div>
 
-				@*忘記密碼*@
-<div class="d-flex justify-content-end mb-3">
-	<a href="#" class="forgot-password" >忘記密碼?</a>		
-</div>
+					@*密碼登入*@
+	<div class="mb-3 row  align-items-center"> <!--下面的for="exampleInputPassword1"-->
+		<label asp-for="CustomerPassword" class="form-label col-3 text-end" style="white-space: nowrap;">密碼 : </label>
+		<div class="col-9 ">
+			<div class="input-group">
+					<input asp-for="CustomerPassword"  type="password" class="form-control" placeholder="請輸入您的密碼">
+				<button type="button" class="btn btn-outline-secondary" onclick="togglePassword()">👁</button>
+			</div>
+			 <!--<span asp-validation-for="CustomerPassword" class="text-danger"></span>-->
+		</div>
+	</div>
 
-				@*註冊登入(註冊未設定連結)*@
-<div class="d-flex justify-content-between">
-		<a asp-controller="Customers" asp-action="Create" class="btn btn-custom btn-register flex-fill me-2">註冊</a>
-	<button type="submit" class="btn btn-custom btn-login flex-fill">登入</button>
-</div>			
-</form>
-</div>
-</div>
+					@*忘記密碼*@
+	<div class="d-flex justify-content-end mb-3">
+		<a href="#" class="forgot-password" >忘記密碼?</a>		
+	</div>
+
+					@*註冊登入*@
+	<div class="d-flex justify-content-between">
+						<a asp-controller="Customers" asp-action="Create" class="btn btn-custom btn-register flex-fill me-2">註冊</a>
+						<a asp-controller="Customers" asp-action="Member_Login" class="btn btn-custom btn-login flex-fill" value="登入"></a>  @*改成A標籤*@
+	</div>			
+	</form>
+	</div>
+	</div>
 	}
 </body>
 </html>
 
 @section scripts {
-	<script>
-		function togglePassword() {
-		var passwordInput = document.getElementById("exampleInputPassword1");
-		if (passwordInput.type === "password") {
-			passwordInput.type = "text"; // 顯示密碼
-		} else {
-			passwordInput.type = "password"; // 隱藏密碼
-		}
-		}
-		</script>
+		<script>
+			function togglePassword() {
+			var passwordInput = document.getElementById("exampleInputPassword1");
+			if (passwordInput.type === "password") {
+				passwordInput.type = "text"; // 顯示密碼
+			} else {
+				passwordInput.type = "password"; // 隱藏密碼
+			}
+			}
+			</script>
 	@* 客戶端驗證 *@
-		<partial name="_ValidationScriptsPartial" />
+			<partial name="_ValidationScriptsPartial" />
 }
