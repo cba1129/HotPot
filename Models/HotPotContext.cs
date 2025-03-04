@@ -72,7 +72,7 @@ public partial class HotPotContext : DbContext
 
             entity.HasIndex(e => e.CustomerPhone, "UQ__Customer__564718C4E17A96B2").IsUnique();
 
-            entity.HasIndex(e => e.CustomerAccount, "UQ__Customer__5A6A5323489B15E4").IsUnique();
+           // entity.HasIndex(e => e.CustomerAccount, "UQ__Customer__5A6A5323489B15E4").IsUnique();
 
             entity.HasIndex(e => e.CustomerEmail, "UQ__Customer__8A8E9747957F75C7").IsUnique();
 

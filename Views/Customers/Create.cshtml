@@ -26,26 +26,26 @@
                     <input asp-for="CustomerPhone" class="form-control" />
                     <span asp-validation-for="CustomerPhone" class="text-danger"></span>
                 </div>
-                <div class="mb-3">
-                    <label asp-for="CustomerEmail" class="control-label">電子郵件<span style="color:red">*</span></label>
-                    <input asp-for="CustomerEmail" class="form-control" />
-                    <span asp-validation-for="CustomerEmail" class="text-danger"></span>
-                </div>            
+                <div class="mb-3"> 
+                     <label asp-for="CustomerEmail" class="control-label">電子郵件<span style="color:red">*</span></label> 
+                     <input asp-for="CustomerEmail" class="form-control" /> 
+                     <span asp-validation-for="CustomerEmail" class="text-danger"></span>
+                 </div>             
                 <div class="mb-3">
                     <label asp-for="CustomerAddress" class="control-label">地址<span style="color:red">*</span></label>
                     <input asp-for="CustomerAddress" class="form-control" />
                     <span asp-validation-for="CustomerAddress" class="text-danger"></span>
                 </div>
-                <div class="mb-3">
-                    <label asp-for="CustomerBirthDate" class="control-label">生日<span style="color:red">*</span>&nbsp;</label>
-                        <input asp-for="CustomerBirthDate" type="date" id="userbirthday" name="userbirthday" max="@DateTime.Now.ToString("yyyy-MM-dd")" required />
-                    <span asp-validation-for="CustomerBirthDate" class="text-danger"></span>
-                </div>
-                <div class="mb-3"> 
-                    <label asp-for="CustomerAccount" class="control-label">帳號<span style="color:red">*</span></label>
-                    <input asp-for="CustomerAccount" class="form-control" /> 
-                    <span asp-validation-for="CustomerAccount" class="text-danger"></span> 
-                </div> 
+                @* <div class="mb-3"> *@
+                @*     <label asp-for="CustomerBirthDate" class="control-label">生日<span style="color:red">*</span>&nbsp;</label> *@
+                @*         <input asp-for="CustomerBirthDate" type="date" id="userbirthday" name="userbirthday" max="@DateTime.Now.ToString("yyyy-MM-dd")" required /> *@
+                @*     <span asp-validation-for="CustomerBirthDate" class="text-danger"></span> *@
+                @* </div> *@
+                 <div class="mb-3"> 
+                     <label asp-for="CustomerAccount" class="control-label">帳號<span style="color:red">*</span></label> 
+                     <input asp-for="CustomerAccount" class="form-control" />  
+                     <span asp-validation-for="CustomerAccount" class="text-danger"></span>  
+                 </div>  
                  <div class="mb-3"> 
                     <label asp-for="CustomerPassword" class="control-label">密碼<span style="color:red">*</span></label> 
                     <input asp-for="CustomerPassword" class="form-control" /> 

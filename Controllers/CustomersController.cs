@@ -101,7 +101,7 @@ namespace Restaurant.Controllers
                     CustomerEmail = customer.CustomerEmail,  // email
                     CustomerAddress = customer.CustomerAddress, // 地址
                     CustomerBirthDate = customer.CustomerBirthDate,  //  生日還沒寫進資料庫
-                    CustomerAccount = customer.CustomerAccount, // 帳號
+                   // CustomerAccount = customer.CustomerAccount, // 帳號
                     CustomerPassword = hashedPassword,       // 加密密碼
 
                 };
@@ -231,25 +231,25 @@ namespace Restaurant.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Member_Login(Customer user,string CustomerAccount, string Password)  // 參數問題
+        public ActionResult Member_Login(string CustomerAccount,string CustomerPassword)  // 參數問題
         {
 
             if (ModelState.IsValid)
             {
                 Customer? result = (from a in _context.Customers
-                                    where a.CustomerAccount == user.CustomerAccount
+                                    where a.CustomerAccount == CustomerAccount
                                     select a).SingleOrDefault();
                 if (result == null)
                 {
                     return RedirectToAction(nameof(Create));  //若找不到傳回  (帳號不存在)
                 }
-                var valid = _passwordHasher.VerifyHashedPassword(null!, result.CustomerPassword, user.CustomerPassword);
+                var valid = _passwordHasher.VerifyHashedPassword(null!, result.CustomerPassword, CustomerPassword);
                 if (valid.Equals(Microsoft.AspNet.Identity.PasswordVerificationResult.Success))
                 {
 
                     var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.Name,result.CustomerName),//帳號
+                        new Claim(ClaimTypes.Name,result.CustomerAccount),//帳號
                         new Claim("UserName",result.CustomerName),//帳號
                         //new Claim("UserStatus",result.status),//身分  (沒有身分)
                         new Claim("UserId",result.CustomerCustomerId.ToString()),//會員ID
@@ -259,18 +259,20 @@ namespace Restaurant.Controllers
                     };
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                    return RedirectToAction("Index", "Home");
+
 
                 }
                 else
                 {
                     ViewBag.Error = "密碼錯誤，請重新輸入！";
-                    return RedirectToAction(nameof(Index));
+                    return View();
 
                 }
 
             }
             ViewBag.Error = "請檢查輸入欄位是否正確！";
-            return RedirectToAction(nameof(Login));
+            return View();
         }
         //------------------------------------------------------
         //    if (!ModelState.IsValid)

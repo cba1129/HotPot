@@ -102,13 +102,13 @@
 
 
 
-		<form asp-action="Member_Login" method="post">
+			<form asp-controller="Customers" asp-action="Member_Login" method="post">
 					@*帳號登入*@
 	<div class="mb-3 row  align-items-center">	
 		<label asp-for="CustomerAccount" class="form-label col-3 text-end" > 帳號 : </label>
 		<div class="col-9">
-				<input asp-for="CustomerAccount" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="請輸入您的帳號">
-		<!--<span asp-validation-for="CustomerAccount" class="text-danger"></span>-->
+				<input asp-for="CustomerAccount"  class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="請輸入您的帳號">
+			<!--<span asp-validation-for="CustomerAccount" class="text-danger"></span>     type="email"-->
 		</div>
 						@*<div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>*@
 	</div>
@@ -133,7 +133,7 @@
 					@*註冊登入*@
 	<div class="d-flex justify-content-between">
 						<a asp-controller="Customers" asp-action="Create" class="btn btn-custom btn-register flex-fill me-2">註冊</a>
-						<a asp-controller="Customers" asp-action="Member_Login" class="btn btn-custom btn-login flex-fill" value="登入"></a>  @*改成A標籤*@
+							<button type="submit" class="btn btn-custom btn-login flex-fill" value="登入">登入</button>  @*改成A標籤*@
 	</div>			
 	</form>
 	</div>
@@ -142,17 +142,17 @@
 </body>
 </html>
 
-@section scripts {
-		<script>
-			function togglePassword() {
-			var passwordInput = document.getElementById("exampleInputPassword1");
-			if (passwordInput.type === "password") {
-				passwordInput.type = "text"; // 顯示密碼
-			} else {
-				passwordInput.type = "password"; // 隱藏密碼
-			}
-			}
-			</script>
-	@* 客戶端驗證 *@
-			<partial name="_ValidationScriptsPartial" />
-}
+@* @section scripts { *@
+@* 		<script> *@
+@* 			function togglePassword() { *@
+@* 			var passwordInput = document.getElementById("exampleInputPassword1"); *@
+@* 			if (passwordInput.type === "password") { *@
+@* 				passwordInput.type = "text"; // 顯示密碼 *@
+@* 			} else { *@
+@* 				passwordInput.type = "password"; // 隱藏密碼 *@
+@* 			} *@
+@* 			} *@
+@* 			</script> *@
+@* 	@* 客戶端驗證 *@ 
+@* 			<partial name="_ValidationScriptsPartial" /> *@
+@* } *@
