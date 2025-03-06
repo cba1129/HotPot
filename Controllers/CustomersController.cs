@@ -243,6 +243,7 @@ namespace Restaurant.Controllers
                                     select a).SingleOrDefault();
                 if (result == null)
                 {
+                    ViewBag.noMember="去註冊啦";    
                     return RedirectToAction(nameof(Create));  //若找不到傳回  (帳號不存在)
                 }
                 var valid = _passwordHasher.VerifyHashedPassword(null!,  result.CustomerPassword ,CustomerPassword.Trim());
