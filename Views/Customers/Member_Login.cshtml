@@ -119,8 +119,9 @@
 		<div class="col-9 ">
 			<div class="input-group">
 					<input asp-for="CustomerPassword"  type="password" class="form-control" placeholder="請輸入您的密碼">
-				<button type="button" class="btn btn-outline-secondary" onclick="togglePassword()">👁</button>
+				<button type="button" class="btn btn-outline-secondary" onclick="togglePassword()">👁</button>				
 			</div>
+							
 			 <!--<span asp-validation-for="CustomerPassword" class="text-danger"></span>-->
 		</div>
 	</div>
@@ -129,6 +130,10 @@
 	<div class="d-flex justify-content-end mb-3">
 		<a href="#" class="forgot-password" >忘記密碼?</a>		
 	</div>
+					@if (!string.IsNullOrEmpty(ViewBag.Error))
+					{
+													<div >@ViewBag.Error</div>
+					}	
 
 					@*註冊登入*@
 	<div class="d-flex justify-content-between">

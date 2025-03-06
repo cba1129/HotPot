@@ -19,6 +19,7 @@ using System.Security.Claims;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using Umbraco.Core.Models.Membership;
 using Microsoft.AspNet.Identity;
+using System.Diagnostics;
 
 
 
@@ -94,6 +95,7 @@ namespace Restaurant.Controllers
                     // return RedirectToAction(nameof(Create));  // 要告訴使用者帳好已存在
                 }
                 string? hashedPassword = _passwordHasher.HashPassword(null!, customer.CustomerPassword); // 加密
+                Debug.WriteLine("註冊時雜湊密碼: " + hashedPassword);
                 Customer customer1 = new Customer
                 {
                     CustomerName = customer.CustomerName,   // 姓名 
@@ -101,14 +103,14 @@ namespace Restaurant.Controllers
                     CustomerEmail = customer.CustomerEmail,  // email
                     CustomerAddress = customer.CustomerAddress, // 地址
                     CustomerBirthDate = customer.CustomerBirthDate,  //  生日還沒寫進資料庫
-                   // CustomerAccount = customer.CustomerAccount, // 帳號
+                    CustomerAccount = customer.CustomerAccount, // 帳號
                     CustomerPassword = hashedPassword,       // 加密密碼
 
                 };
 
                 _context.Add(customer1);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(actionName: "Member_Login");
             }
             return View(customer);
         }
@@ -243,8 +245,8 @@ namespace Restaurant.Controllers
                 {
                     return RedirectToAction(nameof(Create));  //若找不到傳回  (帳號不存在)
                 }
-                var valid = _passwordHasher.VerifyHashedPassword(null!, result.CustomerPassword, CustomerPassword);
-                if (valid.Equals(Microsoft.AspNet.Identity.PasswordVerificationResult.Success))
+                var valid = _passwordHasher.VerifyHashedPassword(null!,  result.CustomerPassword ,CustomerPassword.Trim());
+                if (valid == Microsoft.AspNetCore. Identity.PasswordVerificationResult.Success )
                 {
 
                     var claims = new List<Claim>
@@ -259,6 +261,7 @@ namespace Restaurant.Controllers
                     };
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                    Debug.WriteLine("資料庫密碼: " + result.CustomerPassword);
                     return RedirectToAction("Index", "Home");
 
 
@@ -266,6 +269,11 @@ namespace Restaurant.Controllers
                 else
                 {
                     ViewBag.Error = "密碼錯誤，請重新輸入！";
+                    Debug.WriteLine("資料庫密碼: " + result.CustomerPassword);
+                    Debug.WriteLine("密碼雜湊: " + _passwordHasher.HashPassword(null!, CustomerPassword));
+                    Debug.WriteLine("資料庫密碼: " + result.CustomerPassword);
+                    Debug.WriteLine("資料庫密碼 (hashed): " + result.CustomerPassword);
+                    Debug.WriteLine("使用者輸入密碼 (plain): " + CustomerPassword);
                     return View();
 
                 }
