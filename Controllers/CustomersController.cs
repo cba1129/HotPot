@@ -46,7 +46,7 @@ namespace Restaurant.Controllers
 
         // GET: Customers
         [Authorize]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index()  // 這頁面壞掉了
         {
             return View(await _context.Customers.ToListAsync());
         }
@@ -102,7 +102,7 @@ namespace Restaurant.Controllers
                     CustomerPhone = customer.CustomerPhone,  // 電話
                     CustomerEmail = customer.CustomerEmail,  // email
                     CustomerAddress = customer.CustomerAddress, // 地址
-                    CustomerBirthDate = customer.CustomerBirthDate,  //  生日還沒寫進資料庫
+                    //CustomerBirthDate = customer.CustomerBirthDate,  //  生日還沒寫進資料庫
                     CustomerAccount = customer.CustomerAccount, // 帳號
                     CustomerPassword = hashedPassword,       // 加密密碼
 
@@ -242,8 +242,8 @@ namespace Restaurant.Controllers
                                     where a.CustomerAccount == CustomerAccount
                                     select a).SingleOrDefault();
                 if (result == null)
-                {
-                    ViewBag.noMember="去註冊啦";    
+                {  
+                    ViewBag.noMember="去註冊啦";      // 這裡還沒弄到頁面
                     return RedirectToAction(nameof(Create));  //若找不到傳回  (帳號不存在)
                 }
                 var valid = _passwordHasher.VerifyHashedPassword(null!,  result.CustomerPassword ,CustomerPassword.Trim());
@@ -263,7 +263,7 @@ namespace Restaurant.Controllers
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
                     Debug.WriteLine("資料庫密碼: " + result.CustomerPassword);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Customers");
 
 
                 }
@@ -283,35 +283,7 @@ namespace Restaurant.Controllers
             ViewBag.Error = "請檢查輸入欄位是否正確！";
             return View();
         }
-        //------------------------------------------------------
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(model);
-        //    }
-        //    // 假設這是從資料庫讀取的帳號密碼（實際應該從 DB 查詢）
-        //    string correctUsername = "admin@example.com";
-        //    string correctPassword = "123456";
-        //    string customerName = "Admin user";
-
-        //    if (model.CustomerAccount == correctUsername && model.CustomerPassword == correctPassword)
-        //    {
-        //        // 記錄登入狀態
-        //        Session["User"] = model.CustomerAccount;
-        //        return RedirectToAction("Index", "Home");  // 登入成功導向首頁
-        //    }
-        //    else
-        //    {
-        //        ViewBag.ErrorMessage = "❌ 帳號或密碼錯誤";
-        //        return View(model);
-        //    } }        
-
-        //// 登出功能
-        //public ActionResult Logout()
-        //{
-        //    Session.Clear();  // 清除 Session
-        //    return RedirectToAction("Member_Login");
-
-
+       
 
         // Member_Register 沒在用
         public IActionResult Member_Register()

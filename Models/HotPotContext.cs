@@ -83,7 +83,7 @@ public partial class HotPotContext : DbContext
             entity.Property(e => e.CustomerAddress)
                 .HasMaxLength(255)
                 .HasColumnName("Customer_Address");
-            entity.Property(e => e.CustomerBirthDate).HasColumnName("Customer_BirthDate");
+            //entity.Property(e => e.CustomerBirthDate).HasColumnName("Customer_BirthDate");
             entity.Property(e => e.CustomerCreatedAt)
                 .HasDefaultValueSql("(sysdatetime())")
                 .HasColumnName("Customer_CreatedAt");
@@ -99,10 +99,10 @@ public partial class HotPotContext : DbContext
             entity.Property(e => e.CustomerPhone)
                 .HasMaxLength(20)
                 .HasColumnName("Customer_Phone");
-            entity.Property(e => e.CustomerPoints)
-                .HasDefaultValue(0.00m)
-                .HasColumnType("decimal(10, 2)")
-                .HasColumnName("Customer_Points");
+            //entity.Property(e => e.CustomerPoints)
+                //.HasDefaultValue(0.00m)
+                //.HasColumnType("decimal(10, 2)")
+                //.HasColumnName("Customer_Points");
         });
 
         modelBuilder.Entity<CustomerFeedback>(entity =>

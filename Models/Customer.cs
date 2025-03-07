@@ -40,12 +40,12 @@ public partial class Customer
     //[Compare("CustomerPassword", ErrorMessage = "密碼與確認密碼不相符")]
     //public string? ConfirmPassword { get; set; }
 
-    [Display(Name = "生日")]
-    public DateOnly? CustomerBirthDate { get; set; }
+    //[Display(Name = "生日")]
+    //public DateOnly? CustomerBirthDate { get; set; }
 
 
-    [Display(Name = "點數")]
-    public decimal? CustomerPoints { get; set; }
+    //[Display(Name = "點數")]
+    //public decimal? CustomerPoints { get; set; }
 
 
     [Required(ErrorMessage = "請輸入有效的地址")]
