@@ -24,20 +24,21 @@ using System.Diagnostics;
 
 
 
+
 namespace Restaurant.Controllers
 {
 
 
     public class CustomersController : Controller
     {
-        Customer xa = new Customer();   //根據類別建立物件
+        //CustomerView xa = new CustomerView();   //根據類別建立物件
 
         private readonly ILogger<CustomersController> _logger;
-        private readonly HotPotContext _context;
+        private readonly MyDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly PasswordHasher<string> _passwordHasher = new PasswordHasher<string>();  // 哈希        
 
-        public CustomersController(ILogger<CustomersController> logger, HotPotContext context,
+        public CustomersController(ILogger<CustomersController> logger, MyDbContext context,
             IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
@@ -61,7 +62,7 @@ namespace Restaurant.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
-        public async Task<IActionResult> Create([Bind("CustomerCustomerId,CustomerName,CustomerPhone,CustomerEmail,CustomerPassword,CustomerBirthDate,CustomerAccount,CustomerPoints,CustomerAddress,CustomerCreatedAt")] Customer customer)
+        public async Task<IActionResult> Create([Bind("CustomerId,CustomerName,CustomerPhone,CustomerEmail,CustomerPassword,CustomerAccount,CustomerAddress,CustomerCreatedAt")] CustomerView customer)
         {
 
             if (ModelState.IsValid)
@@ -76,7 +77,7 @@ namespace Restaurant.Controllers
                 }
                 string? hashedPassword = _passwordHasher.HashPassword(null!, customer.CustomerPassword); // 加密
                 Debug.WriteLine("註冊時雜湊密碼: " + hashedPassword);
-                Customer customer1 = new Customer
+                CustomerView customer1 = new CustomerView
                 {
                     CustomerName = customer.CustomerName,   // 姓名 
                     CustomerPhone = customer.CustomerPhone,  // 電話
@@ -112,7 +113,7 @@ namespace Restaurant.Controllers
 
             if (ModelState.IsValid)
             {
-                Customer? result = (from a in _context.Customers
+                CustomerView? result = (from a in _context.Customers
                                     where a.CustomerAccount == CustomerAccount
                                     select a).SingleOrDefault();
                 if (result == null)
@@ -129,7 +130,7 @@ namespace Restaurant.Controllers
                         new Claim(ClaimTypes.Name,result.CustomerAccount),//帳號
                         new Claim("UserName",result.CustomerName),//帳號
                         //new Claim("UserStatus",result.status),//身分  (沒有身分)
-                        new Claim("UserId",result.CustomerCustomerId.ToString()),//會員ID
+                        new Claim("UserId",result.CustomerId.ToString()),//會員ID
                         //new Claim(ClaimTypes.Role,"Admin")
                     };
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -190,7 +191,7 @@ namespace Restaurant.Controllers
             {
                 return RedirectToAction(nameof(Login));  // 如果沒有登入，則重導向登入頁面
             }
-            Customer? member = await _context.Customers
+            CustomerView? member = await _context.Customers
         .Include(m => m.Orders)
         .FirstOrDefaultAsync(m => m.CustomerAccount == customerAccount);   // 假設有登入機制
 
@@ -201,16 +202,16 @@ namespace Restaurant.Controllers
                 return RedirectToAction(nameof(Create));
             }
 
-            var viewModel = new Customer
+            var viewModel = new CustomerView
             {
                 CustomerAccount = member.CustomerAccount,
                 CustomerName = member.CustomerName,
                 CustomerPhone = member.CustomerPhone,
                 CustomerEmail = member.CustomerEmail,
                 CustomerAddress = member.CustomerAddress,
-                Orders = member.Orders.Select(o => new Order
+                Orders = member.Orders.Select(o => new OrderView
                 {
-                    OrderOrderId = o.OrderOrderId,
+                    OrderId = o.OrderId,
                     OrderDate = o.OrderDate,
                     OrderTotalAmount = o.OrderTotalAmount,
                    // Status = o.Status
@@ -235,7 +236,7 @@ namespace Restaurant.Controllers
             }
 
             var customer = await _context.Customers
-                .FirstOrDefaultAsync(m => m.CustomerCustomerId == id);
+                .FirstOrDefaultAsync(m => m.CustomerId == id);
             if (customer == null)
             {
                 return NotFound();
@@ -268,9 +269,9 @@ namespace Restaurant.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CustomerCustomerId,CustomerName,CustomerPhone,CustomerEmail,CustomerPassword,CustomerBirthDate,CustomerAccount,CustomerPoints,CustomerAddress,CustomerCreatedAt")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("Customer_Id,CustomerName,CustomerPhone,CustomerEmail,CustomerPassword,CustomerBirthDate,CustomerAccount,CustomerPoints,CustomerAddress,CustomerCreatedAt")] CustomerView customer)
         {
-            if (id != customer.CustomerCustomerId)
+            if (id != customer.CustomerId)
             {
                 return NotFound();
             }
@@ -284,7 +285,7 @@ namespace Restaurant.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerExists(customer.CustomerCustomerId))
+                    if (!CustomerExists(customer.CustomerId))
                     {
                         return NotFound();
                     }
@@ -307,7 +308,7 @@ namespace Restaurant.Controllers
             }
 
             var customer = await _context.Customers
-                .FirstOrDefaultAsync(m => m.CustomerCustomerId == id);
+                .FirstOrDefaultAsync(m => m.CustomerId == id);
             if (customer == null)
             {
                 return NotFound();
@@ -333,7 +334,7 @@ namespace Restaurant.Controllers
 
         private bool CustomerExists(int id)
         {
-            return _context.Customers.Any(e => e.CustomerCustomerId == id);
+            return _context.Customers.Any(e => e.CustomerId == id);
         }
 
 
@@ -347,7 +348,7 @@ namespace Restaurant.Controllers
             }
 
             var customer = await _context.Customers
-                .FirstOrDefaultAsync(m => m.CustomerCustomerId == id);
+                .FirstOrDefaultAsync(m => m.CustomerId == id);
             if (customer == null)
             {
                 return NotFound();
@@ -368,7 +369,7 @@ namespace Restaurant.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Member_Register([Bind("CustomerCustomerId,CustomerName,CustomerPhone,CustomerEmail,CustomerPassword,CustomerBirthDate,CustomerAccount,CustomerPoints,CustomerAddress,CustomerCreatedAt")] Customer customer)
+        public async Task<IActionResult> Member_Register([Bind("Customer_Id,CustomerName,CustomerPhone,CustomerEmail,CustomerPassword,CustomerBirthDate,CustomerAccount,CustomerPoints,CustomerAddress,CustomerCreatedAt")] CustomerView customer)
         {
             if (ModelState.IsValid)
             {

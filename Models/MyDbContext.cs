@@ -4,51 +4,50 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Restaurant.Models;
 
-public partial class HotPotContext : DbContext
+public partial class MyDbContext : DbContext
 {
-    public HotPotContext()
+    public MyDbContext()
     {
     }
 
-    public HotPotContext(DbContextOptions<HotPotContext> options)
+    public MyDbContext(DbContextOptions<MyDbContext> options)
         : base(options)
     {
     }
 
     public virtual DbSet<Carousel> Carousels { get; set; }
 
-    public virtual DbSet<Customer> Customers { get; set; }
+    public virtual DbSet<CustomerView> Customers { get; set; }
 
-    public virtual DbSet<CustomerFeedback> CustomerFeedbacks { get; set; }
+    public virtual DbSet<CustomerFeedbackView> CustomerFeedbacks { get; set; }
 
     public virtual DbSet<Menu> Menus { get; set; }
 
-    public virtual DbSet<Order> Orders { get; set; }
+    public virtual DbSet<OrderView> Orders { get; set; }
 
-    public virtual DbSet<OrderItem> OrderItems { get; set; }
+    public virtual DbSet<OrderItemView> OrderItems { get; set; }
 
-    public virtual DbSet<Payment> Payments { get; set; }
+    public virtual DbSet<PaymentView> Payments { get; set; }
 
-    public virtual DbSet<Reservation> Reservations { get; set; }
+    public virtual DbSet<ReservationView> Reservations { get; set; }
 
-    public virtual DbSet<RestaurantInfo> RestaurantInfos { get; set; }
+    public virtual DbSet<RestaurantInfoView> RestaurantInfos { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Name=ConnectionStrings:HotPotConnstring");
+        => optionsBuilder.UseSqlServer("Server=10.0.101.160,1433;Initial Catalog=RestaurantDB;User Id=TeamHotPots;Password=MSIT62;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Carousel>(entity =>
         {
-            entity.HasKey(e => e.CarouselCarouselId).HasName("PK__Carousel__EC8FB1C43F008C23");
+            entity.HasKey(e => e.CarouselId).HasName("PK__Carousel__7EE7615BDD5E5554");
 
             entity.ToTable("Carousel");
 
-            entity.Property(e => e.CarouselCarouselId).HasColumnName("Carousel_CarouselId");
+            entity.Property(e => e.CarouselId).HasColumnName("Carousel_Id");
             entity.Property(e => e.CarouselCreatedAt)
                 .HasDefaultValueSql("(sysdatetime())")
                 .HasColumnName("Carousel_CreatedAt");
-            entity.Property(e => e.CarouselDescription).HasColumnName("Carousel_Description");
             entity.Property(e => e.CarouselDisplayOrder).HasColumnName("Carousel_DisplayOrder");
             entity.Property(e => e.CarouselEndTime).HasColumnName("Carousel_EndTime");
             entity.Property(e => e.CarouselImageUrl)
@@ -57,33 +56,23 @@ public partial class HotPotContext : DbContext
             entity.Property(e => e.CarouselIsActive)
                 .HasDefaultValue(true)
                 .HasColumnName("Carousel_IsActive");
-            entity.Property(e => e.CarouselLinkUrl)
-                .HasMaxLength(255)
-                .HasColumnName("Carousel_LinkUrl");
             entity.Property(e => e.CarouselStartTime).HasColumnName("Carousel_StartTime");
             entity.Property(e => e.CarouselTitle)
                 .HasMaxLength(100)
                 .HasColumnName("Carousel_Title");
         });
 
-        modelBuilder.Entity<Customer>(entity =>
+        modelBuilder.Entity<CustomerView>(entity =>
         {
-            entity.HasKey(e => e.CustomerCustomerId).HasName("PK__Customer__DF3BDDE9B3504256");
+            entity.HasKey(e => e.CustomerId).HasName("PK__Customer__8CB2869968B1C603");
 
-            entity.HasIndex(e => e.CustomerPhone, "UQ__Customer__564718C4E17A96B2").IsUnique();
-
-           // entity.HasIndex(e => e.CustomerAccount, "UQ__Customer__5A6A5323489B15E4").IsUnique();
-
-            entity.HasIndex(e => e.CustomerEmail, "UQ__Customer__8A8E9747957F75C7").IsUnique();
-
-            entity.Property(e => e.CustomerCustomerId).HasColumnName("Customer_CustomerId");
+            entity.Property(e => e.CustomerId).HasColumnName("Customer_Id");
             entity.Property(e => e.CustomerAccount)
                 .HasMaxLength(50)
                 .HasColumnName("Customer_Account");
             entity.Property(e => e.CustomerAddress)
                 .HasMaxLength(255)
                 .HasColumnName("Customer_Address");
-            //entity.Property(e => e.CustomerBirthDate).HasColumnName("Customer_BirthDate");
             entity.Property(e => e.CustomerCreatedAt)
                 .HasDefaultValueSql("(sysdatetime())")
                 .HasColumnName("Customer_CreatedAt");
@@ -91,7 +80,7 @@ public partial class HotPotContext : DbContext
                 .HasMaxLength(100)
                 .HasColumnName("Customer_Email");
             entity.Property(e => e.CustomerName)
-                .HasMaxLength(100)
+                .HasMaxLength(20)
                 .HasColumnName("Customer_Name");
             entity.Property(e => e.CustomerPassword)
                 .HasMaxLength(256)
@@ -99,103 +88,105 @@ public partial class HotPotContext : DbContext
             entity.Property(e => e.CustomerPhone)
                 .HasMaxLength(20)
                 .HasColumnName("Customer_Phone");
-            //entity.Property(e => e.CustomerPoints)
-                //.HasDefaultValue(0.00m)
-                //.HasColumnType("decimal(10, 2)")
-                //.HasColumnName("Customer_Points");
         });
 
-        modelBuilder.Entity<CustomerFeedback>(entity =>
+        modelBuilder.Entity<CustomerFeedbackView>(entity =>
         {
-            entity.HasKey(e => e.FeedbackFeedbackId).HasName("PK__Customer__F42951E598345AB1");
+            entity.HasKey(e => e.FeedbackId).HasName("PK__Customer__CD3993185A262292");
 
             entity.ToTable("CustomerFeedback");
 
-            entity.Property(e => e.FeedbackFeedbackId).HasColumnName("Feedback_FeedbackId");
+            entity.Property(e => e.FeedbackId).HasColumnName("Feedback_Id");
             entity.Property(e => e.FeedbackContent).HasColumnName("Feedback_Content");
+            entity.Property(e => e.FeedbackDateTime)
+                .HasDefaultValueSql("(sysdatetime())")
+                .HasColumnName("Feedback_DateTime");
             entity.Property(e => e.FeedbackDiningLocation)
-                .HasMaxLength(100)
+                .HasMaxLength(20)
                 .HasColumnName("Feedback_DiningLocation");
+            entity.Property(e => e.FeedbackDiningLocationId).HasColumnName("Feedback_DiningLocationId");
             entity.Property(e => e.FeedbackEmail)
                 .HasMaxLength(255)
                 .HasColumnName("Feedback_Email");
             entity.Property(e => e.FeedbackGender)
-                .HasMaxLength(50)
+                .HasMaxLength(10)
                 .HasColumnName("Feedback_Gender");
             entity.Property(e => e.FeedbackName)
-                .HasMaxLength(100)
+                .HasMaxLength(20)
                 .HasColumnName("Feedback_Name");
             entity.Property(e => e.FeedbackPhone)
                 .HasMaxLength(20)
                 .HasColumnName("Feedback_Phone");
             entity.Property(e => e.FeedbackTime)
-                .HasDefaultValueSql("(sysdatetime())")
+                .HasMaxLength(20)
                 .HasColumnName("Feedback_Time");
+            entity.HasOne(d => d.FeedbackDiningLocationNavigation).WithMany(p => p.CustomerFeedbacks)
+                .HasForeignKey(d => d.FeedbackDiningLocationId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__CustomerF__Feedb__5CD6CB2B");
         });
 
         modelBuilder.Entity<Menu>(entity =>
         {
-            entity.HasKey(e => e.MenuMenuId).HasName("PK__Menu__8A6E67B80F697CD0");
+            entity.HasKey(e => e.MenuId).HasName("PK__Menu__69E72338B04A1585");
 
             entity.ToTable("Menu");
 
-            entity.Property(e => e.MenuMenuId).HasColumnName("Menu_MenuId");
+            entity.Property(e => e.MenuId).HasColumnName("Menu_Id");
             entity.Property(e => e.MenuCategory)
-                .HasMaxLength(50)
+                .HasMaxLength(8)
                 .HasColumnName("Menu_Category");
-            entity.Property(e => e.MenuDescription).HasColumnName("Menu_Description");
+            entity.Property(e => e.MenuDescription)
+                .HasMaxLength(100)
+                .HasColumnName("Menu_Description");
+            entity.Property(e => e.MenuImageUrl)
+                .HasMaxLength(100)
+                .HasColumnName("Menu_ImageUrl");
             entity.Property(e => e.MenuIsAvailable)
                 .HasDefaultValue(true)
                 .HasColumnName("Menu_IsAvailable");
-            entity.Property(e => e.MenuItemName)
-                .HasMaxLength(100)
-                .HasColumnName("Menu_ItemName");
+            entity.Property(e => e.MenuName)
+                .HasMaxLength(20)
+                .HasColumnName("Menu_Name");
             entity.Property(e => e.MenuPrice)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("Menu_Price");
-            entity.Property(e => e.MenuRestaurantId).HasColumnName("Menu_RestaurantId");
-
-            entity.HasOne(d => d.MenuRestaurant).WithMany(p => p.Menus)
-                .HasForeignKey(d => d.MenuRestaurantId)
-                .HasConstraintName("FK__Menu__Menu_Resta__45F365D3");
         });
 
-        modelBuilder.Entity<Order>(entity =>
+        modelBuilder.Entity<OrderView>(entity =>
         {
-            entity.HasKey(e => e.OrderOrderId).HasName("PK__Orders__DFD746E7F08A98E5");
+            entity.HasKey(e => e.OrderId).HasName("PK__Orders__F1E4607B47F27BCA");
 
-            entity.Property(e => e.OrderOrderId).HasColumnName("Order_OrderId");
+            entity.Property(e => e.OrderId).HasColumnName("Order_Id");
             entity.Property(e => e.OrderCustomerId).HasColumnName("Order_CustomerId");
             entity.Property(e => e.OrderDate)
                 .HasDefaultValueSql("(sysdatetime())")
                 .HasColumnName("Order_Date");
             entity.Property(e => e.OrderRestaurantId).HasColumnName("Order_RestaurantId");
-            entity.Property(e => e.OrderStatus)
-                .HasMaxLength(50)
-                .HasDefaultValue("Pending")
-                .HasColumnName("Order_Status");
             entity.Property(e => e.OrderTotalAmount)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("Order_TotalAmount");
             entity.Property(e => e.OrderType)
                 .HasMaxLength(50)
+                .HasDefaultValue("Pending")
                 .HasColumnName("Order_Type");
 
             entity.HasOne(d => d.OrderCustomer).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.OrderCustomerId)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK__Orders__Order_Cu__4CA06362");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Orders__Order_Cu__440B1D61");
 
             entity.HasOne(d => d.OrderRestaurant).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.OrderRestaurantId)
-                .HasConstraintName("FK__Orders__Order_Re__4D94879B");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Orders__Order_Re__44FF419A");
         });
 
-        modelBuilder.Entity<OrderItem>(entity =>
+        modelBuilder.Entity<OrderItemView>(entity =>
         {
-            entity.HasKey(e => e.OrderItemItemId).HasName("PK__OrderIte__A3428DFA2D16F919");
+            entity.HasKey(e => e.OrderItemId).HasName("PK__OrderIte__2F3022028ABA6856");
 
-            entity.Property(e => e.OrderItemItemId).HasColumnName("OrderItem_ItemId");
+            entity.Property(e => e.OrderItemId).HasColumnName("OrderItem_Id");
             entity.Property(e => e.OrderItemMenuId).HasColumnName("OrderItem_MenuId");
             entity.Property(e => e.OrderItemOrderId).HasColumnName("OrderItem_OrderId");
             entity.Property(e => e.OrderItemQuantity).HasColumnName("OrderItem_Quantity");
@@ -206,18 +197,19 @@ public partial class HotPotContext : DbContext
             entity.HasOne(d => d.OrderItemMenu).WithMany(p => p.OrderItems)
                 .HasForeignKey(d => d.OrderItemMenuId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__OrderItem__Order__534D60F1");
+                .HasConstraintName("FK__OrderItem__Order__49C3F6B7");
 
             entity.HasOne(d => d.OrderItemOrder).WithMany(p => p.OrderItems)
                 .HasForeignKey(d => d.OrderItemOrderId)
-                .HasConstraintName("FK__OrderItem__Order__52593CB8");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__OrderItem__Order__48CFD27E");
         });
 
-        modelBuilder.Entity<Payment>(entity =>
+        modelBuilder.Entity<PaymentView>(entity =>
         {
-            entity.HasKey(e => e.PaymentPaymentId).HasName("PK__Payments__F8DFE7150F380159");
+            entity.HasKey(e => e.PaymentId).HasName("PK__Payments__DA6C7FC1BEF711E6");
 
-            entity.Property(e => e.PaymentPaymentId).HasColumnName("Payment_PaymentId");
+            entity.Property(e => e.PaymentId).HasColumnName("Payment_Id");
             entity.Property(e => e.PaymentAmount)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("Payment_Amount");
@@ -235,65 +227,78 @@ public partial class HotPotContext : DbContext
 
             entity.HasOne(d => d.PaymentOrder).WithMany(p => p.Payments)
                 .HasForeignKey(d => d.PaymentOrderId)
-                .HasConstraintName("FK__Payments__Paymen__5FB337D6");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Payments__Paymen__5441852A");
         });
 
-        modelBuilder.Entity<Reservation>(entity =>
+        modelBuilder.Entity<ReservationView>(entity =>
         {
-            entity.HasKey(e => e.ReservationReservationId).HasName("PK__Reservat__F2065D8215596CC7");
+            entity.HasKey(e => e.ReservationId).HasName("PK__Reservat__17302AAD7913F6D4");
 
-            entity.Property(e => e.ReservationReservationId).HasColumnName("Reservation_ReservationId");
-            entity.Property(e => e.ReservationCustomerId).HasColumnName("Reservation_CustomerId");
-            entity.Property(e => e.ReservationRestaurantId).HasColumnName("Reservation_RestaurantId");
-            entity.Property(e => e.ReservationStatus)
+            entity.Property(e => e.ReservationId).HasColumnName("Reservation_Id");
+            entity.Property(e => e.CustomerId).HasColumnName("Customer_Id");
+            entity.Property(e => e.ReservationCreatedDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("Reservation_CreatedDate");
+            entity.Property(e => e.ReservationDate)
+                .HasColumnType("datetime")
+                .HasColumnName("Reservation_Date");
+            entity.Property(e => e.ReservationName)
                 .HasMaxLength(50)
-                .HasDefaultValue("Pending")
-                .HasColumnName("Reservation_Status");
-            entity.Property(e => e.ReservationTime).HasColumnName("Reservation_Time");
+                .HasColumnName("Reservation_Name");
+            entity.Property(e => e.ReservationPeople).HasColumnName("Reservation_People");
+            entity.Property(e => e.ReservationPhone)
+                .HasMaxLength(20)
+                .HasColumnName("Reservation_Phone");
+            entity.Property(e => e.RestaurantId).HasColumnName("Restaurant_Id");
 
-            entity.HasOne(d => d.ReservationCustomer).WithMany(p => p.Reservations)
-                .HasForeignKey(d => d.ReservationCustomerId)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK__Reservati__Reser__5812160E");
+            entity.HasOne(d => d.Customer).WithMany(p => p.Reservations)
+                .HasForeignKey(d => d.CustomerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Reservati__Custo__4D94879B");
 
-            entity.HasOne(d => d.ReservationRestaurant).WithMany(p => p.Reservations)
-                .HasForeignKey(d => d.ReservationRestaurantId)
-                .HasConstraintName("FK__Reservati__Reser__59063A47");
+            entity.HasOne(d => d.Restaurant).WithMany(p => p.Reservations)
+                .HasForeignKey(d => d.RestaurantId)
+                .HasConstraintName("FK__Reservati__Resta__4E88ABD4");
         });
 
-        modelBuilder.Entity<RestaurantInfo>(entity =>
+        modelBuilder.Entity<RestaurantInfoView>(entity =>
         {
-            entity.HasKey(e => e.RestaurantRestaurantId).HasName("PK__Restaura__AD2E937A5B4CA653");
+            entity.HasKey(e => e.RestaurantId).HasName("PK__Restaura__B422BC6BCF489B67");
 
             entity.ToTable("RestaurantInfo");
 
-            entity.HasIndex(e => e.RestaurantPhone, "UQ__Restaura__A5FDD72D95379FAB").IsUnique();
-
-            entity.HasIndex(e => e.RestaurantEmail, "UQ__Restaura__ECB000DCE33DE13C").IsUnique();
-
-            entity.Property(e => e.RestaurantRestaurantId).HasColumnName("Restaurant_RestaurantId");
+            entity.Property(e => e.RestaurantId).HasColumnName("Restaurant_Id");
             entity.Property(e => e.RestaurantAddress)
                 .HasMaxLength(255)
                 .HasColumnName("Restaurant_Address");
+            entity.Property(e => e.RestaurantCapacity).HasColumnName("Restaurant_Capacity");
             entity.Property(e => e.RestaurantCreatedAt)
                 .HasDefaultValueSql("(sysdatetime())")
                 .HasColumnName("Restaurant_CreatedAt");
-            entity.Property(e => e.RestaurantDescription).HasColumnName("Restaurant_Description");
-            entity.Property(e => e.RestaurantEmail)
-                .HasMaxLength(100)
-                .HasColumnName("Restaurant_Email");
             entity.Property(e => e.RestaurantImageUrl)
                 .HasMaxLength(255)
                 .HasColumnName("Restaurant_ImageUrl");
+            entity.Property(e => e.RestaurantInfoPosition)
+                .HasMaxLength(10)
+                .HasColumnName("Restaurant_InfoPosition");
+            entity.Property(e => e.RestaurantLastOrderTime)
+                .HasMaxLength(50)
+                .HasColumnName("Restaurant_LastOrderTime");
+            entity.Property(e => e.RestaurantMapEmbedUrl)
+                .HasMaxLength(500)
+                .HasColumnName("Restaurant_MapEmbedUrl");
             entity.Property(e => e.RestaurantName)
-                .HasMaxLength(100)
+                .HasMaxLength(20)
                 .HasColumnName("Restaurant_Name");
             entity.Property(e => e.RestaurantOpeningHours)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .HasColumnName("Restaurant_OpeningHours");
             entity.Property(e => e.RestaurantPhone)
                 .HasMaxLength(20)
                 .HasColumnName("Restaurant_Phone");
+            entity.Property(e => e.RestaurantReservationCount).HasColumnName("Restaurant_ReservationCount");
         });
 
         OnModelCreatingPartial(modelBuilder);

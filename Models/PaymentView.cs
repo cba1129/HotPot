@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Restaurant.Models;
 
-public partial class Payment
+public partial class PaymentView
 {
-    public int PaymentPaymentId { get; set; }
+    public int PaymentId { get; set; }
 
     public int PaymentOrderId { get; set; }
 
@@ -17,5 +17,5 @@ public partial class Payment
 
     public DateTime? PaymentDate { get; set; }
 
-    public virtual Order PaymentOrder { get; set; } = null!;
+    public virtual OrderView PaymentOrder { get; set; } = null!;
 }

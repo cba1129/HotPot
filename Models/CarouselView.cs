@@ -5,15 +5,11 @@ namespace Restaurant.Models;
 
 public partial class Carousel
 {
-    public int CarouselCarouselId { get; set; }
+    public int CarouselId { get; set; }
 
     public string CarouselImageUrl { get; set; } = null!;
 
     public string? CarouselTitle { get; set; }
-
-    public string? CarouselDescription { get; set; }
-
-    public string? CarouselLinkUrl { get; set; }
 
     public int CarouselDisplayOrder { get; set; }
 

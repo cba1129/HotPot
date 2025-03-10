@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Restaurant.Models;
 
-public partial class OrderItem
+public partial class OrderItemView
 {
-    public int OrderItemItemId { get; set; }
+    public int OrderItemId { get; set; }
 
     public int OrderItemOrderId { get; set; }
 
@@ -17,5 +17,5 @@ public partial class OrderItem
 
     public virtual Menu OrderItemMenu { get; set; } = null!;
 
-    public virtual Order OrderItemOrder { get; set; } = null!;
+    public virtual OrderView OrderItemOrder { get; set; } = null!;
 }

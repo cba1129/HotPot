@@ -15,8 +15,8 @@ builder.Services.AddRazorPages(); // 0310 加的
 //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 //    .AddCookie();
 
-builder.Services.AddDbContext<HotPotContext>(
-options => options.UseSqlServer(builder.Configuration.GetConnectionString("HotPotConnstring")));
+builder.Services.AddDbContext<MyDbContext>(
+options => options.UseSqlServer(builder.Configuration.GetConnectionString("RestaurantConnstring")));
 
 //// Add services to the container. 使用 cookie 判斷是否是登入狀態
 builder.Services.AddControllersWithViews();

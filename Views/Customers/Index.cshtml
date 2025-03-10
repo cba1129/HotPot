@@ -1,4 +1,4 @@
-﻿@model Restaurant.Models.Customer
+﻿@model Restaurant.Models.CustomerView
 
 @{
     ViewData["Title"] = "Index";
@@ -123,11 +123,11 @@
 @*                  @Html.DisplayFor(modelItem => item.CustomerCreatedAt)  *@
 @*              </td>  *@
 @*               <td>  *@
-@*                   @* <a asp-action="Edit" asp-route-id="@item.CustomerCustomerId">Edit</a> |  *@  
-@*                   @*     <a href="~/Customers/Index_Member" asp-route-id="@item.CustomerCustomerId" >Details</a> |  *@  
-@*                   @*     @Html.ActionLink("Edit", "Edit", new { id = item.CustomerCustomerId }) |  *@  
-@*                   @*     <a asp-action="Delete" asp-route-id="@item.CustomerCustomerId">Delete</a>  *@ 
-@*                      @Html.ActionLink("Edit", "Edit", new { id = item.CustomerCustomerId }) |  *@
+@*                   @* <a asp-action="Edit" asp-route-id="@item.Customer_Id">Edit</a> |  *@  
+@*                   @*     <a href="~/Customers/Index_Member" asp-route-id="@item.Customer_Id" >Details</a> |  *@  
+@*                   @*     @Html.ActionLink("Edit", "Edit", new { id = item.Customer_Id }) |  *@  
+@*                   @*     <a asp-action="Delete" asp-route-id="@item.Customer_Id">Delete</a>  *@ 
+@*                      @Html.ActionLink("Edit", "Edit", new { id = item.Customer_Id }) |  *@
 @*                      @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |   *@
 @*                      @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })   *@
 @*               </td>   *@
