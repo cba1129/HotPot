@@ -1,91 +1,141 @@
-﻿@model IEnumerable<Restaurant.Models.Customer>
+﻿@model Restaurant.Models.Customer
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerPhone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerEmail)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerPassword)
-            </th>
-            @* <th> *@
-            @*     @Html.DisplayNameFor(model => model.CustomerBirthDate) *@
-            @* </th> *@
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerAccount)
-            </th>
-            @* <th> *@
-            @*     @Html.DisplayNameFor(model => model.CustomerPoints) *@
-            @* </th> *@
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerAddress)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerCreatedAt)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerPhone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerEmail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerPassword)
-            </td>
-            @* <td> *@
-            @*     @Html.DisplayFor(modelItem => item.CustomerBirthDate) *@
-            @* </td> *@
-            @* <td> *@
-            @*     @Html.DisplayFor(modelItem => item.CustomerAccount) *@
-            @* </td> *@
-            @* <td> *@
-            @*     @Html.DisplayFor(modelItem => item.CustomerPoints) *@
-            @* </td> *@
-             <td> 
-                @Html.DisplayFor(modelItem => item.CustomerAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerCreatedAt)
-            </td>
-             <td>
-                 @* <a asp-action="Edit" asp-route-id="@item.CustomerCustomerId">Edit</a> |  *@
-                 @*     <a href="~/Customers/Index_Member" asp-route-id="@item.CustomerCustomerId" >Details</a> |  *@
-                 @*     @Html.ActionLink("Edit", "Edit", new { id = item.CustomerCustomerId }) |  *@
-                 @*     <a asp-action="Delete" asp-route-id="@item.CustomerCustomerId">Delete</a>  *@
-                    @Html.ActionLink("Edit", "Edit", new { id = item.CustomerCustomerId }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) | 
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ }) 
-             </td> 
-        </tr>
-}
-    </tbody>
-</table>
+@*@model Restaurant.Models.Customer*@
 
 
+
+<div class="container mt-4">
+    <h2 class="text-center">會員專區</h2>
+
+    <!-- 上方按鈕 -->
+    <div class="d-flex justify-content-center mb-3">
+        <a href="/Order" class="btn btn-primary mx-2">訂餐</a>
+        <a href="/Reservation" class="btn btn-secondary mx-2">訂位</a>
+    </div>
+
+    <!-- 會員資訊 -->
+    <div class="card p-3 mb-4">
+        <h4>會員資訊</h4>
+        <p><strong>帳號:</strong> @Model.CustomerAccount</p>
+        <p><strong>姓名:</strong> @Model.CustomerName</p>
+        <p><strong>電話:</strong> @Model.CustomerPhone</p>
+        <p><strong>Email:</strong> @Model.CustomerEmail</p>
+        <p><strong>地址:</strong> @Model.CustomerAddress</p>
+    </div>
+
+    <!-- 訂單紀錄 -->
+    <h4>訂單紀錄</h4>
+    <table class="table table-bordered">
+        <thead class="thead-light">
+            <tr>
+                <th>訂單編號</th>
+                <th>日期</th>
+                <th>總金額</th>
+                <th>狀態</th>
+            </tr>
+        </thead>
+        <tbody>
+            @* @foreach (var order in Model.Orders)  *@
+            @*  {  *@
+            @*      <tr>  *@
+            @*          <td>@order.OrderId</td>  *@
+            @*          <td>@order.OrderDate.ToString("yyyy-MM-dd")</td>  *@
+            @*          <td>@order.TotalAmount</td>  *@
+            @*          <td>@order.Status</td>  *@
+            @*      </tr>  *@
+            @*  } *@
+        </tbody>
+    </table>
+</div>
+
+
+
+@* <h1>Index</h1>  *@
+
+@*  <p>  *@
+@*      <a asp-action="Create">Create New</a>  *@
+@*  </p>  *@
+@*  <table class="table">  *@
+@*      <thead>  *@
+@*          <tr>  *@
+@*              <th>  *@
+@*                  @Html.DisplayNameFor(model => model.CustomerName)  *@
+@*              </th> *@
+@*              <th>  *@
+@*                  @Html.DisplayNameFor(model => model.CustomerPhone)  *@
+@*              </th>  *@
+@*              <th>  *@
+@*                  @Html.DisplayNameFor(model => model.CustomerEmail)  *@
+@*              </th>  *@
+@*              <th>  *@
+@*                  @Html.DisplayNameFor(model => model.CustomerPassword)  *@
+@*              </th>  *@
+@*              @* <th> *@ 
+@*              @*     @Html.DisplayNameFor(model => model.CustomerBirthDate) *@  
+@*              @* </th> *@  
+@*              <th>  *@
+@*                  @Html.DisplayNameFor(model => model.CustomerAccount)  *@
+@*              </th>  *@
+@*              @* <th> *@  
+@*              @*     @Html.DisplayNameFor(model => model.CustomerPoints) *@  
+@*              @* </th> *@  
+@*              <th>  *@
+@*                  @Html.DisplayNameFor(model => model.CustomerAddress)  *@
+@*              </th>  *@
+@*              <th>  *@
+@*                  @Html.DisplayNameFor(model => model.CustomerCreatedAt)  *@
+@*              </th>  *@
+@*              <th></th>  *@
+@*          </tr>  *@
+@*      </thead>  *@
+@*      <tbody>  *@
+@*  @foreach (var item in Model) {  *@
+@*          <tr>  *@
+@*              <td>  *@
+@*                  @Html.DisplayFor(modelItem => item.CustomerName)  *@
+@*              </td>  *@
+@*              <td>  *@
+@*                  @Html.DisplayFor(modelItem => item.CustomerPhone)  *@
+@*              </td>  *@
+@*              <td>  *@
+@*                  @Html.DisplayFor(modelItem => item.CustomerEmail)  *@
+@*              </td>  *@
+@*              <td>  *@
+@*                  @Html.DisplayFor(modelItem => item.CustomerPassword)  *@
+@*              </td>  *@
+@*              @* <td> *@  
+@*              @*     @Html.DisplayFor(modelItem => item.CustomerBirthDate) *@  
+@*              @* </td> *@ 
+@*              @* <td> *@  
+@*              @*     @Html.DisplayFor(modelItem => item.CustomerAccount) *@  
+@*              @* </td> *@ 
+@*              @* <td> *@  
+@*              @*     @Html.DisplayFor(modelItem => item.CustomerPoints) *@  
+@*              @* </td> *@ 
+@*               <td>   *@
+@*                  @Html.DisplayFor(modelItem => item.CustomerAddress)  *@
+@*              </td>  *@
+@*              <td>  *@
+@*                  @Html.DisplayFor(modelItem => item.CustomerCreatedAt)  *@
+@*              </td>  *@
+@*               <td>  *@
+@*                   @* <a asp-action="Edit" asp-route-id="@item.CustomerCustomerId">Edit</a> |  *@  
+@*                   @*     <a href="~/Customers/Index_Member" asp-route-id="@item.CustomerCustomerId" >Details</a> |  *@  
+@*                   @*     @Html.ActionLink("Edit", "Edit", new { id = item.CustomerCustomerId }) |  *@  
+@*                   @*     <a asp-action="Delete" asp-route-id="@item.CustomerCustomerId">Delete</a>  *@ 
+@*                      @Html.ActionLink("Edit", "Edit", new { id = item.CustomerCustomerId }) |  *@
+@*                      @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |   *@
+@*                      @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })   *@
+@*               </td>   *@
+@*          </tr>  *@
+@*  }  *@
+@*      </tbody>  *@
+@*  </table> *@
+
+ 
 
 

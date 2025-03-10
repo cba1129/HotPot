@@ -6,7 +6,8 @@ namespace Restaurant.Models;
 
 public partial class Customer
 {
-    
+    internal string? CustomersName;
+
     public int CustomerCustomerId { get; set; }
 
 
