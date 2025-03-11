@@ -47,7 +47,7 @@ namespace Restaurant.Controllers
         }
 
         #region 註冊
-        #endregion
+        
         [AllowAnonymous] //允許匿名
         // GET: Customers/Create
         public IActionResult Create()
@@ -58,7 +58,7 @@ namespace Restaurant.Controllers
         // POST: Customers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        // 註冊密碼位隱碼 //
+        // 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
@@ -95,9 +95,10 @@ namespace Restaurant.Controllers
             }
             return View(customer);
         }
+        #endregion
 
         #region 登入
-        #endregion
+
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Member_Login()
@@ -164,6 +165,7 @@ namespace Restaurant.Controllers
             ViewBag.Error = "請檢查輸入欄位是否正確！";
             return View("Member_Login");
         }
+        #endregion
 
         #region 其他動作
         #endregion
@@ -180,7 +182,7 @@ namespace Restaurant.Controllers
 
 
         #region 會員專區
-        #endregion
+        
         // GET: Customers
         [Authorize]
         public async Task<IActionResult> Index()   // 會員專區葉面
@@ -219,44 +221,23 @@ namespace Restaurant.Controllers
             };
             //return View(await _context.Customers.ToListAsync());
             return View(member);
-        }      
-        
-
-
-
-
-
-
-        // GET: Customers/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var customer = await _context.Customers
-                .FirstOrDefaultAsync(m => m.CustomerId == id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-
-            return View(customer);
         }
 
-        
+        #endregion
 
+        #region 編輯使用者資料
+        #endregion
+        
         [Authorize]
         // GET: Customers/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? Id)
         {
-            if (id == null)
+            if (Id == null)
             {
                 return NotFound();
             }
 
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = await _context.Customers.FindAsync(Id);
             if (customer == null)
             {
                 return NotFound();
@@ -268,8 +249,9 @@ namespace Restaurant.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Customer_Id,CustomerName,CustomerPhone,CustomerEmail,CustomerPassword,CustomerBirthDate,CustomerAccount,CustomerPoints,CustomerAddress,CustomerCreatedAt")] CustomerView customer)
+        public async Task<IActionResult> Edit(int id, [Bind("CustomerId,CustomerName,CustomerPhone,CustomerEmail,CustomerPassword,CustomerAccount,CustomerCreatedAt")] CustomerView customer)
         {
             if (id != customer.CustomerId)
             {
@@ -298,6 +280,30 @@ namespace Restaurant.Controllers
             }
             return View(customer);
         }
+        
+
+
+        // GET: Customers/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var customer = await _context.Customers
+                .FirstOrDefaultAsync(m => m.CustomerId == id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            return View(customer);
+        }
+
+        
+
+        
 
         // GET: Customers/Delete/5
         public async Task<IActionResult> Delete(int? id)

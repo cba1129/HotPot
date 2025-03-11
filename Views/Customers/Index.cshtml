@@ -20,6 +20,7 @@
     <!-- 會員資訊 -->
     <div class="card p-3 mb-4">
         <h4>會員資訊</h4>
+        <a asp-action="Edit" asp-route-id="@Model.CustomerId"  class="btn btn-secondary ">修改資料✏️</a>
         <p><strong>帳號:</strong> @Model.CustomerAccount</p>
         <p><strong>姓名:</strong> @Model.CustomerName</p>
         <p><strong>電話:</strong> @Model.CustomerPhone</p>

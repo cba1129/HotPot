@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Restaurant.Models;
-using Umbraco.Core.Persistence.Repositories;
+//using Umbraco.Core.Persistence.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authorization;
@@ -76,6 +76,6 @@ app.MapRazorPages(); // 0310
 或者，保持 MapDefaultControllerRoute();，但改變 HomeController 的 Index() 行為，讓它重定向到 Customers/Member_Login。*/
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Customers}/{action=Member_Login}/{id?}");
+    pattern: "{controller=Customers}/{action=Member_Login}/{CustomerId?}");
 // _Member  Register    Member_Login    create    Index_Member    Index
 app.Run();
